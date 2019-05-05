@@ -17,6 +17,8 @@ public class Deals {
 	Boolean d_new_cust_only;
 	Date d_start;
 	Date d_end;
+	Date create_at;
+	Date update_at;
 
 	public Deals(Integer d_id, String d_name) {
 		super();
@@ -26,7 +28,7 @@ public class Deals {
 
 	public Deals(Integer d_id, String d_code, String d_name, String d_desc, Integer d_type, Double d_amount, Integer d_max_val,
 			Integer d_min_val, Integer d_limit_use, Boolean d_limit_one_cust, Boolean d_new_cust_only, Date d_start,
-			Date d_end) {
+			Date d_end, Date create_at, Date update_at) {
 		super();
 		this.d_id = d_id;
 		this.d_code = d_code;
@@ -41,11 +43,13 @@ public class Deals {
 		this.d_new_cust_only = d_new_cust_only;
 		this.d_start = d_start;
 		this.d_end = d_end;
+		this.create_at = create_at;
+		this.update_at = update_at;
 	}
 
 	public void update(String d_code, String d_name, String d_desc, Integer d_type, Double d_amount, Integer d_max_val,
 			Integer d_min_val, Integer d_limit_use, Boolean d_limit_one_cust, Boolean d_new_cust_only, Date d_start,
-			Date d_end) {
+			Date d_end, Date update_at) {
 		this.d_code = d_code;
 		this.d_name = d_name;
 		this.d_desc = d_desc;
@@ -58,6 +62,7 @@ public class Deals {
 		this.d_new_cust_only = d_new_cust_only;
 		this.d_start = d_start;
 		this.d_end = d_end;
+		this.update_at = update_at;
 	}
 
 	public Integer getD_id() {
@@ -164,11 +169,29 @@ public class Deals {
 		this.d_end = d_end;
 	}
 
+	public Date getCreate_at() {
+		return create_at;
+	}
+
+	public void setCreate_at(Date create_at) {
+		this.create_at = create_at;
+	}
+
+	public Date getUpdate_at() {
+		return update_at;
+	}
+
+	public void setUpdate_at(Date update_at) {
+		this.update_at = update_at;
+	}
+
 	@Override
 	public String toString() {
 		return "Deals [d_id=" + d_id + ", d_code=" + d_code + ", d_name=" + d_name + ", d_desc=" + d_desc + ", d_type="
 				+ d_type + ", d_amount=" + d_amount + ", d_max_val=" + d_max_val + ", d_min_val=" + d_min_val
 				+ ", d_limit_use=" + d_limit_use + ", d_limit_one_cust=" + d_limit_one_cust + ", d_new_cust_only="
-				+ d_new_cust_only + ", d_start=" + d_start + ", d_end=" + d_end + "]";
+				+ d_new_cust_only + ", d_start=" + d_start + ", d_end=" + d_end + ", create_at=" + create_at
+				+ ", update_at=" + update_at + "]";
 	}
+	
 }

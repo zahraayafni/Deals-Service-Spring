@@ -1,6 +1,5 @@
 package id.ac.its.pbkkddealsservice;
 
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +28,24 @@ public class DealsController {
 		return dealsService.getAllDeals();
 	}
 	
+	@RequestMapping("/active")
+	public List<Deals> getActiveDeals(){
+		return dealsService.getActiveDeals();
+	}
+	
+	@RequestMapping("/exp")
+	public List<Deals> getExpDeals(){
+		return dealsService.getExpDeals();
+	}
+	
+	@RequestMapping(value = "/use/{d_code}", method = RequestMethod.POST)
+	public Map<String, Object> useDeals(@PathVariable("d_code") String d_code){
+		Map<String, Object> map = new LinkedHashMap<>();
+		dealsService.useDeals(d_code);
+		map.put("result", "used");
+		return map;
+	}
+	
 	@ResponseBody
 	@RequestMapping("/{id}")
 	public Deals getDeals(@PathVariable("id") Integer d_id){
@@ -49,12 +66,13 @@ public class DealsController {
 			@RequestParam(value = "d_limit_use") Integer d_limit_use,
 			@RequestParam(value = "d_limit_one_cust") Boolean d_limit_one_cust,
 			@RequestParam(value = "d_new_cust_only") Boolean d_new_cust_only,
-			@RequestParam(value = "d_start") Date d_start,
-			@RequestParam(value = "d_end") Date d_end) {
+			@RequestParam(value = "d_start") String d_start,
+			@RequestParam(value = "d_end") String d_end,
+			@RequestParam(value = "create_at") String create_at) {
 		
 		Map<String, Object> map = new LinkedHashMap<>();
 		dealsService.createDeals(d_id, d_code, d_name, d_desc, d_type, d_amount, d_max_val, d_min_val, d_limit_use,
-				d_limit_one_cust, d_new_cust_only, d_start, d_end);
+				d_limit_one_cust, d_new_cust_only, d_start, d_end, create_at);
 		map.put("result", "added");
 		return map;
 		
@@ -74,12 +92,12 @@ public class DealsController {
 			@RequestParam(value = "d_limit_use") Integer d_limit_use,
 			@RequestParam(value = "d_limit_one_cust") Boolean d_limit_one_cust,
 			@RequestParam(value = "d_new_cust_only") Boolean d_new_cust_only,
-			@RequestParam(value = "d_start") Date d_start,
-			@RequestParam(value = "d_end") Date d_end
-			) {
+			@RequestParam(value = "d_start") String d_start,
+			@RequestParam(value = "d_end") String d_end,
+			@RequestParam(value = "update_at") String update_at) {
 		Map<String, Object> map = new LinkedHashMap<>();
 		dealsService.updateDeals(d_id, d_code, d_name, d_desc, d_type, d_amount, d_max_val, d_min_val, d_limit_use,
-				d_limit_one_cust, d_new_cust_only, d_start, d_end);
+				d_limit_one_cust, d_new_cust_only, d_start, d_end, update_at);
 		map.put("result", "updated");
 		return map;
 	}
@@ -95,7 +113,3 @@ public class DealsController {
 	}
 	
 }
-
-// ERRORNYA
-/*
- * Failed to convert value of type 'java.lang.String' to required type 'java.util.Date'; nested exception is org.springframework.core.convert.ConversionFailedException: Failed to convert from type [java.lang.String] to type [@org.springframework.web.bind.annotation.RequestParam java.util.Date] for value '2019-05-04 11:27:39'; nested exception is java.lang.IllegalArgumentException"*/
