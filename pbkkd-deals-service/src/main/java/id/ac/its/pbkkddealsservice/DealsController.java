@@ -54,7 +54,7 @@ public class DealsController {
 	
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Map<String, Object> createUser(
+	public Map<String, Object> createDeals(
 			@RequestParam(value = "d_id") Integer d_id,
 			@RequestParam(value = "d_code") String d_code,
 			@RequestParam(value = "d_name") String d_name,
