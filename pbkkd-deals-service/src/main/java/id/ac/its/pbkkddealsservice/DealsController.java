@@ -79,9 +79,9 @@ public class DealsController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public Map<String, Object> updateDeals(
-			@RequestParam(value = "d_id") Integer d_id,
+			@PathVariable("id") Integer d_id,
 			@RequestParam(value = "d_code") String d_code,
 			@RequestParam(value = "d_name") String d_name,
 			@RequestParam(value = "d_desc") String d_desc,
