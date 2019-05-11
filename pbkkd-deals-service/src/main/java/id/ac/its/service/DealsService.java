@@ -1,5 +1,6 @@
 package id.ac.its.service;
 
+import java.util.Date;
 import java.util.List;
 import id.ac.its.model.Deals;
 
@@ -8,14 +9,16 @@ public interface DealsService {
 	List<Deals> getAllDeals();
 	List<Deals> getActiveDeals();
 	List<Deals> getExpDeals();
-	Deals getDeals(Integer d_id);
-	void useDeals(String d_code);
-	void createDeals(Integer d_id, String d_code, String d_name, String d_desc, Integer d_type, Double d_amount, Integer d_max_val,
-			Integer d_min_val, Integer d_limit_use, Boolean d_limit_one_cust, Boolean d_new_cust_only, String d_start,
-			String d_end, String create_at);
-	void updateDeals(Integer d_id, String d_code, String d_name, String d_desc, Integer d_type, Double d_amount, Integer d_max_val,
-			Integer d_min_val, Integer d_limit_use, Boolean d_limit_one_cust, Boolean d_new_cust_only, String d_start,
-			String d_end, String update_at);
-	void deleteDeals(Integer d_id);
+	List<Deals> getAllDealsByRestaurant(Integer r_id);
+	List<Deals> getActiveDealsByRestaurant(Integer r_id);
+	List<Deals> getExpDealsByRestaurant(Integer r_id);
+	Deals getDeals(Integer r_id, Integer id);
+	void createDeals(Integer id, Integer r_id, String code, String name, String desc, Integer type, Double amount,
+			Integer max_val, Integer min_val, Integer total_limit_use, Integer limit_use_per_user,
+			Boolean limit_one_cust_only, Boolean new_cust_only, Boolean active_status, Date start, Date end);
+	void updateDeals(String code, String name, String desc, Integer type, Double amount,
+			Integer max_val, Integer min_val, Integer total_limit_use, Integer limit_use_per_user,
+			Boolean limit_one_cust_only, Boolean new_cust_only, Boolean active_status, Date start, Date end);
+	void deleteDeals(Integer r_id, Integer id);
 	
 }

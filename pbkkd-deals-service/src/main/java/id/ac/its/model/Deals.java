@@ -1,10 +1,15 @@
 package id.ac.its.model;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Deals {
 
 	Integer id;
+	Integer r_id; // id for restaurant
+	Integer u_id; // id for user
 	String code;
 	String name;
 	String desc;
@@ -16,158 +21,213 @@ public class Deals {
 	Integer limit_use_per_user; // how many time the voucher can be redeemed by user
 	Boolean limit_one_cust_only; // each user only have one chance to redeem the voucher
 	Boolean new_cust_only;
+	Boolean active_status;
 	Date start;
 	Date end;
 	Date create_at;
 	Date update_at;
 
-	public Deals(Integer d_id, String d_name) {
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	public Deals(Integer id, String name) {
 		super();
-		this.id = d_id;
-		this.name = d_name;
+		this.id = id;
+		this.name = name;
 	}
 
-	public Deals(Integer d_id, String d_code, String d_name, String d_desc, Integer d_type, Double d_amount, Integer d_max_val,
-			Integer d_min_val, Integer d_limit_use, Boolean d_limit_one_cust, Boolean d_new_cust_only, Date d_start,
-			Date d_end, Date create_at, Date update_at) {
+	public Deals(Integer id, Integer r_id, String code, String name, String desc, Integer type, Double amount,
+			Integer max_val, Integer min_val, Integer total_limit_use, Integer limit_use_per_user,
+			Boolean limit_one_cust_only, Boolean new_cust_only, Boolean active_status, Date start, Date end) {
 		super();
-		this.id = d_id;
-		this.code = d_code;
-		this.name = d_name;
-		this.desc = d_desc;
-		this.type = d_type;
-		this.amount = d_amount;
-		this.max_val = d_max_val;
-		this.min_val = d_min_val;
-		this.total_limit_use = d_limit_use;
-		this.limit_one_cust_only = d_limit_one_cust;
-		this.new_cust_only = d_new_cust_only;
-		this.start = d_start;
-		this.end = d_end;
-		this.create_at = create_at;
-		this.update_at = update_at;
+		this.id = id;
+		this.r_id = r_id;
+		this.code = code;
+		this.name = name;
+		this.desc = desc;
+		this.type = type;
+		this.amount = amount;
+		this.max_val = max_val;
+		this.min_val = min_val;
+		this.total_limit_use = total_limit_use;
+		this.limit_use_per_user = limit_use_per_user;
+		this.limit_one_cust_only = limit_one_cust_only;
+		this.new_cust_only = new_cust_only;
+		this.active_status = active_status;
+		this.start = start;
+		this.end = end;
+
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+		try {
+			this.create_at = sdf.parse(sdf.format(timestamp));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public void update(String d_code, String d_name, String d_desc, Integer d_type, Double d_amount, Integer d_max_val,
-			Integer d_min_val, Integer d_limit_use, Boolean d_limit_one_cust, Boolean d_new_cust_only, Date d_start,
-			Date d_end, Date update_at) {
-		this.code = d_code;
-		this.name = d_name;
-		this.desc = d_desc;
-		this.type = d_type;
-		this.amount = d_amount;
-		this.max_val = d_max_val;
-		this.min_val = d_min_val;
-		this.total_limit_use = d_limit_use;
-		this.limit_one_cust_only = d_limit_one_cust;
-		this.new_cust_only = d_new_cust_only;
-		this.start = d_start;
-		this.end = d_end;
-		this.update_at = update_at;
+	public void update(String code, String name, String desc, Integer type, Double amount,
+			Integer max_val, Integer min_val, Integer total_limit_use, Integer limit_use_per_user,
+			Boolean limit_one_cust_only, Boolean new_cust_only, Boolean active_status, Date start, Date end) {
+		
+		this.code = code;
+		this.name = name;
+		this.desc = desc;
+		this.type = type;
+		this.amount = amount;
+		this.max_val = max_val;
+		this.min_val = min_val;
+		this.total_limit_use = total_limit_use;
+		this.limit_use_per_user = limit_use_per_user;
+		this.limit_one_cust_only = limit_one_cust_only;
+		this.new_cust_only = new_cust_only;
+		this.active_status = active_status;
+		this.start = start;
+		this.end = end;
+		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		try {
+			this.update_at = sdf.parse(sdf.format(timestamp));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public Integer getD_id() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setD_id(Integer d_id) {
-		this.id = d_id;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public String getD_code() {
+	public Integer getR_id() {
+		return r_id;
+	}
+
+	public void setR_id(Integer r_id) {
+		this.r_id = r_id;
+	}
+
+	public Integer getU_id() {
+		return u_id;
+	}
+
+	public void setU_id(Integer u_id) {
+		this.u_id = u_id;
+	}
+
+	public String getCode() {
 		return code;
 	}
 
-	public void setD_code(String d_code) {
-		this.code = d_code;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	public String getD_name() {
+	public String getName() {
 		return name;
 	}
 
-	public void setD_name(String d_name) {
-		this.name = d_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getD_desc() {
+	public String getDesc() {
 		return desc;
 	}
 
-	public void setD_desc(String d_desc) {
-		this.desc = d_desc;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
-	public Integer getD_type() {
+	public Integer getType() {
 		return type;
 	}
 
-	public void setD_type(Integer d_type) {
-		this.type = d_type;
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
-	public Double getD_amount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setD_amount(Double d_amount) {
-		this.amount = d_amount;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
-	public Integer getD_max_val() {
+	public Integer getMax_val() {
 		return max_val;
 	}
 
-	public void setD_max_val(Integer d_max_val) {
-		this.max_val = d_max_val;
+	public void setMax_val(Integer max_val) {
+		this.max_val = max_val;
 	}
 
-	public Integer getD_min_val() {
+	public Integer getMin_val() {
 		return min_val;
 	}
 
-	public void setD_min_val(Integer d_min_val) {
-		this.min_val = d_min_val;
+	public void setMin_val(Integer min_val) {
+		this.min_val = min_val;
 	}
 
-	public Integer getD_limit_use() {
+	public Integer getTotal_limit_use() {
 		return total_limit_use;
 	}
 
-	public void setD_limit_use(Integer d_limit_use) {
-		this.total_limit_use = d_limit_use;
+	public void setTotal_limit_use(Integer total_limit_use) {
+		this.total_limit_use = total_limit_use;
 	}
 
-	public Boolean getD_limit_one_cust() {
+	public Integer getLimit_use_per_user() {
+		return limit_use_per_user;
+	}
+
+	public void setLimit_use_per_user(Integer limit_use_per_user) {
+		this.limit_use_per_user = limit_use_per_user;
+	}
+
+	public Boolean getLimit_one_cust_only() {
 		return limit_one_cust_only;
 	}
 
-	public void setD_limit_one_cust(Boolean d_limit_one_cust) {
-		this.limit_one_cust_only = d_limit_one_cust;
+	public void setLimit_one_cust_only(Boolean limit_one_cust_only) {
+		this.limit_one_cust_only = limit_one_cust_only;
 	}
 
-	public Boolean getD_new_cust_only() {
+	public Boolean getNew_cust_only() {
 		return new_cust_only;
 	}
 
-	public void setD_new_cust_only(Boolean d_new_cust_only) {
-		this.new_cust_only = d_new_cust_only;
+	public void setNew_cust_only(Boolean new_cust_only) {
+		this.new_cust_only = new_cust_only;
+	}
+	
+	public Boolean getActive_status() {
+		return active_status;
 	}
 
-	public Date getD_start() {
+	public void setActive_status(Boolean active_status) {
+		this.active_status = active_status;
+	}
+
+	public Date getStart() {
 		return start;
 	}
 
-	public void setD_start(Date d_start) {
-		this.start = d_start;
+	public void setStart(Date start) {
+		this.start = start;
 	}
 
-	public Date getD_end() {
+	public Date getEnd() {
 		return end;
 	}
 
-	public void setD_end(Date d_end) {
-		this.end = d_end;
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
 	public Date getCreate_at() {
@@ -188,11 +248,12 @@ public class Deals {
 
 	@Override
 	public String toString() {
-		return "Deals [d_id=" + id + ", d_code=" + code + ", d_name=" + name + ", d_desc=" + desc + ", d_type="
-				+ type + ", d_amount=" + amount + ", d_max_val=" + max_val + ", d_min_val=" + min_val
-				+ ", d_limit_use=" + total_limit_use + ", d_limit_one_cust=" + limit_one_cust_only + ", d_new_cust_only="
-				+ new_cust_only + ", d_start=" + start + ", d_end=" + end + ", create_at=" + create_at
+		return "Deals [id=" + id + ", r_id=" + r_id + ", u_id=" + u_id + ", code=" + code + ", name=" + name + ", desc="
+				+ desc + ", type=" + type + ", amount=" + amount + ", max_val=" + max_val + ", min_val=" + min_val
+				+ ", total_limit_use=" + total_limit_use + ", limit_use_per_user=" + limit_use_per_user
+				+ ", limit_one_cust_only=" + limit_one_cust_only + ", new_cust_only=" + new_cust_only
+				+ ", active_status=" + active_status + ", start=" + start + ", end=" + end + ", create_at=" + create_at
 				+ ", update_at=" + update_at + "]";
 	}
-	
+
 }

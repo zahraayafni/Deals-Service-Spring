@@ -15,6 +15,6 @@ A repository for Framework Programming Final Project
 | /deals/{r_id}/{id} | GET | Show deals by id for a restaurant |
 | /deals/{r_id}/{id} | PUT | Update a deals by id for a restaurant |
 | /deals/{r_id}/{id} | DELETE | Delete a deals by id for a restaurant |
-| /deals/use/{u_id}/{id} | POST | Check for voucher permission |
-| /deals/{u_id}/{id} | POST | Use voucher by a user |
+| /deals/use/{u_id}/{r_id}/{id} | POST | Check for voucher permission |
+| /deals/{u_id}/{r_id}/{id} | POST | Use voucher by a user |
 | /deals/{u_id} | GET | Show voucher history of a user |
