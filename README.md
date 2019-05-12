@@ -11,12 +11,9 @@ A repository for Framework Programming Final Project
 | /deals/{r_id} | GET | Show all deals by restaurant id | - |
 | /deals/{r_id}/active | GET | Show all active deals by restaurant id | - |
 | /deals/{r_id}/exp | GET  | Show all expired deals by restaurant id | - |
-| /deals/{r_id} | POST  | Create deals | id, code, name, desc, type, amount, max_val, min_val, total_limit_use,
-				limit_use_per_user, limit_one_cust_only, new_cust_only, active_status, start, end |
+| /deals/{r_id} | POST  | Create deals | id, code, name, desc, type, amount, max_val, min_val, total_limit_use, limit_use_per_user, limit_one_cust_only, new_cust_only, active_status, start, end |
 | /deals/{r_id}/{id} | GET | Show deals by id for a restaurant | - |
-| /deals/{r_id}/{id} | PUT | Update a deals by id for a restaurant | code, name, desc, type, amount,
-				max_val, min_val, total_limit_use, limit_use_per_user, limit_one_cust_only, new_cust_only,
-				active_status, start, end |
+| /deals/{r_id}/{id} | PUT | Update a deals by id for a restaurant | code, name, desc, type, amount, max_val, min_val, total_limit_use, limit_use_per_user, limit_one_cust_only, new_cust_only, active_status, start, end |
 | /deals/{r_id}/{id} | DELETE | Delete a deals by id for a restaurant | - |
 | /history/check/{u_id} | POST | Check for voucher permission | id, r_id, total_amount |
 | /history/use/{u_id} | POST | Use voucher by a user | id, r_id |
