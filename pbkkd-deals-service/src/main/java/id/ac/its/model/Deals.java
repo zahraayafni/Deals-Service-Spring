@@ -9,7 +9,6 @@ public class Deals {
 
 	Integer id;
 	Integer r_id; // id for restaurant
-	Integer u_id; // id for user
 	String code;
 	String name;
 	String desc;
@@ -105,14 +104,6 @@ public class Deals {
 
 	public void setR_id(Integer r_id) {
 		this.r_id = r_id;
-	}
-
-	public Integer getU_id() {
-		return u_id;
-	}
-
-	public void setU_id(Integer u_id) {
-		this.u_id = u_id;
 	}
 
 	public String getCode() {
@@ -237,7 +228,7 @@ public class Deals {
 
 	@Override
 	public String toString() {
-		return "Deals [id=" + id + ", r_id=" + r_id + ", u_id=" + u_id + ", code=" + code + ", name=" + name + ", desc="
+		return "Deals [id=" + id + ", r_id=" + r_id + ", code=" + code + ", name=" + name + ", desc="
 				+ desc + ", type=" + type + ", amount=" + amount + ", max_val=" + max_val + ", min_val=" + min_val
 				+ ", total_limit_use=" + total_limit_use + ", limit_use_per_user=" + limit_use_per_user
 				+ ", new_cust_only=" + new_cust_only
