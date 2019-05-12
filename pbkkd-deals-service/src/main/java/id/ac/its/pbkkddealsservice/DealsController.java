@@ -77,9 +77,24 @@ public class DealsController {
 		Map<String, Object> map = new LinkedHashMap<>();
 		dealsService.createDeals(id, r_id, code, name, desc, type, amount, max_val, min_val, total_limit_use,
 				limit_use_per_user, new_cust_only, active_status, start, end);
-		map.put("result", "added");
+//		map.put("result", "added");
+		map.put("status", "200 (OK)");
+		map.put("id", id);
+		map.put("r_id", r_id);
+		map.put("code", code);
+		map.put("name", name);
+		map.put("desc", desc);
+		map.put("type", type);
+		map.put("amount", amount);
+		map.put("max_val", max_val);
+		map.put("min_val", min_val);
+		map.put("total_limit_use", total_limit_use);
+		map.put("limit_use_per_user", limit_use_per_user);
+		map.put("new_cust_only", new_cust_only);
+		map.put("active_status", active_status);
+		map.put("start", start);
+		map.put("end", end);
 		return map;
-
 	}
 
 	@ResponseBody
@@ -98,7 +113,23 @@ public class DealsController {
 		dealsService.updateDeals(id, r_id, code, name, desc, type, amount,
 				max_val, min_val, total_limit_use, limit_use_per_user, new_cust_only,
 				active_status, start, end);
-		map.put("result", "updated");
+//		map.put("result", "updated");
+		map.put("status", "200 (OK)");
+		map.put("id", id);
+		map.put("r_id", r_id);
+		map.put("code", code);
+		map.put("name", name);
+		map.put("desc", desc);
+		map.put("type", type);
+		map.put("amount", amount);
+		map.put("max_val", max_val);
+		map.put("min_val", min_val);
+		map.put("total_limit_use", total_limit_use);
+		map.put("limit_use_per_user", limit_use_per_user);
+		map.put("new_cust_only", new_cust_only);
+		map.put("active_status", active_status);
+		map.put("start", start);
+		map.put("end", end);
 		return map;
 	}
 
