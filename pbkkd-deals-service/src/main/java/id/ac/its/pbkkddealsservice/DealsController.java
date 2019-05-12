@@ -21,95 +21,94 @@ public class DealsController {
 
 	@Autowired
 	DealsService dealsService;
-	
+
 	@ResponseBody
 	@RequestMapping("")
-	public List<Deals> getAllDeals(){
+	public List<Deals> getAllDeals() {
 		return dealsService.getAllDeals();
 	}
-	
+
 	@RequestMapping("/active")
-	public List<Deals> getActiveDeals(){
+	public List<Deals> getActiveDeals() {
 		return dealsService.getActiveDeals();
 	}
-	
+
 	@RequestMapping("/exp")
-	public List<Deals> getExpDeals(){
+	public List<Deals> getExpDeals() {
 		return dealsService.getExpDeals();
 	}
-	
-	@RequestMapping(value = "/use/{d_code}", method = RequestMethod.POST)
-	public Map<String, Object> useDeals(@PathVariable("d_code") String d_code){
-		Map<String, Object> map = new LinkedHashMap<>();
-		dealsService.useDeals(d_code);
-		map.put("result", "used");
-		return map;
+
+	@RequestMapping("/{r_id}")
+	public List<Deals> getAllDealsByRestaurant(@PathVariable("r_id") Integer r_id) {
+		return dealsService.getAllDealsByRestaurant(r_id);
+	}
+
+	@RequestMapping("/{r_id}/active")
+	public List<Deals> getActiveDealsByRestaurant(@PathVariable("r_id") Integer r_id) {
+		return dealsService.getActiveDealsByRestaurant(r_id);
 	}
 	
-	@ResponseBody
-	@RequestMapping("/{id}")
-	public Deals getDeals(@PathVariable("id") Integer d_id){
-		return dealsService.getDeals(d_id);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Map<String, Object> createDeals(
-			@RequestParam(value = "d_id") Integer d_id,
-			@RequestParam(value = "d_code") String d_code,
-			@RequestParam(value = "d_name") String d_name,
-			@RequestParam(value = "d_desc") String d_desc,
-			@RequestParam(value = "d_type") Integer d_type,
-			@RequestParam(value = "d_amount") Double d_amount,
-			@RequestParam(value = "d_max_val") Integer d_max_val,
-			@RequestParam(value = "d_min_val") Integer d_min_val,
-			@RequestParam(value = "d_limit_use") Integer d_limit_use,
-			@RequestParam(value = "d_limit_one_cust") Boolean d_limit_one_cust,
-			@RequestParam(value = "d_new_cust_only") Boolean d_new_cust_only,
-			@RequestParam(value = "d_start") String d_start,
-			@RequestParam(value = "d_end") String d_end,
-			@RequestParam(value = "create_at") String create_at) {
-		
-		Map<String, Object> map = new LinkedHashMap<>();
-		dealsService.createDeals(d_id, d_code, d_name, d_desc, d_type, d_amount, d_max_val, d_min_val, d_limit_use,
-				d_limit_one_cust, d_new_cust_only, d_start, d_end, create_at);
-		map.put("result", "added");
-		return map;
-		
+	@RequestMapping("/{r_id}/exp")
+	public List<Deals> getExpDealsByRestaurant(@PathVariable("r_id") Integer r_id) {
+		return dealsService.getExpDealsByRestaurant(r_id);
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public Map<String, Object> updateDeals(
-			@PathVariable("id") Integer d_id,
-			@RequestParam(value = "d_code") String d_code,
-			@RequestParam(value = "d_name") String d_name,
-			@RequestParam(value = "d_desc") String d_desc,
-			@RequestParam(value = "d_type") Integer d_type,
-			@RequestParam(value = "d_amount") Double d_amount,
-			@RequestParam(value = "d_max_val") Integer d_max_val,
-			@RequestParam(value = "d_min_val") Integer d_min_val,
-			@RequestParam(value = "d_limit_use") Integer d_limit_use,
-			@RequestParam(value = "d_limit_one_cust") Boolean d_limit_one_cust,
-			@RequestParam(value = "d_new_cust_only") Boolean d_new_cust_only,
-			@RequestParam(value = "d_start") String d_start,
-			@RequestParam(value = "d_end") String d_end,
-			@RequestParam(value = "update_at") String update_at) {
+	@RequestMapping("/{r_id}/{id}")
+	public Deals getDeals(@PathVariable("r_id") Integer r_id, @PathVariable("id") Integer id) {
+		return dealsService.getDeals(r_id, id);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/{r_id}", method = RequestMethod.POST)
+	public Map<String, Object> createDeals(@PathVariable("r_id") Integer r_id,
+			@RequestParam(value = "id") Integer id,
+			@RequestParam(value = "code") String code, @RequestParam(value = "name") String name,
+			@RequestParam(value = "desc") String desc, @RequestParam(value = "type") Integer type,
+			@RequestParam(value = "amount") Double amount, @RequestParam(value = "max_val") Double max_val,
+			@RequestParam(value = "min_val") Double min_val,
+			@RequestParam(value = "total_limit_use") Integer total_limit_use,
+			@RequestParam(value = "limit_use_per_user") Integer limit_use_per_user,
+			@RequestParam(value = "new_cust_only") Boolean new_cust_only,
+			@RequestParam(value = "active_status") Boolean active_status,
+			@RequestParam(value = "start") String start, @RequestParam(value = "end") String end
+			) {
+
 		Map<String, Object> map = new LinkedHashMap<>();
-		dealsService.updateDeals(d_id, d_code, d_name, d_desc, d_type, d_amount, d_max_val, d_min_val, d_limit_use,
-				d_limit_one_cust, d_new_cust_only, d_start, d_end, update_at);
+		dealsService.createDeals(id, r_id, code, name, desc, type, amount, max_val, min_val, total_limit_use,
+				limit_use_per_user, new_cust_only, active_status, start, end);
+		map.put("result", "added");
+		return map;
+
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/{r_id}/{id}", method = RequestMethod.PUT)
+	public Map<String, Object> updateDeals(@PathVariable("r_id") Integer r_id, @PathVariable("id") Integer id,
+			@RequestParam(value = "code") String code, @RequestParam(value = "name") String name,
+			@RequestParam(value = "desc") String desc, @RequestParam(value = "type") Integer type,
+			@RequestParam(value = "amount") Double amount, @RequestParam(value = "max_val") Double max_val,
+			@RequestParam(value = "min_val") Double min_val,
+			@RequestParam(value = "total_limit_use") Integer total_limit_use,
+			@RequestParam(value = "limit_use_per_user") Integer limit_use_per_user,
+			@RequestParam(value = "new_cust_only") Boolean new_cust_only,
+			@RequestParam(value = "active_status") Boolean active_status,
+			@RequestParam(value = "start") String start, @RequestParam(value = "end") String end) {
+		Map<String, Object> map = new LinkedHashMap<>();
+		dealsService.updateDeals(id, r_id, code, name, desc, type, amount,
+				max_val, min_val, total_limit_use, limit_use_per_user, new_cust_only,
+				active_status, start, end);
 		map.put("result", "updated");
 		return map;
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public Map<String, Object> deleteDeals(
-			@PathVariable("id") Integer d_id) {
-		Map<String, Object> map = new LinkedHashMap<>();   
-	    dealsService.deleteDeals(d_id);    
-	    map.put("result", "deleted");
-	    return map;
+	@RequestMapping(value = "/{r_id}/{id}", method = RequestMethod.DELETE)
+	public Map<String, Object> deleteDeals(@PathVariable("r_id") Integer r_id, @PathVariable("id") Integer id) {
+		Map<String, Object> map = new LinkedHashMap<>();
+		dealsService.deleteDeals(r_id, id);
+		map.put("result", "deleted");
+		return map;
 	}
-	
+
 }

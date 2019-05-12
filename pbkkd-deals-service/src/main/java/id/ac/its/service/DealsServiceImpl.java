@@ -10,7 +10,6 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-
 import id.ac.its.model.Deals;
 
 @Service
@@ -20,13 +19,10 @@ public class DealsServiceImpl implements DealsService {
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 	Date date = new Date();
 
+	/* GET METHODS */
+
 	@Override
 	public List<Deals> getAllDeals() {
-//		for(Deals deal : deals) {
-//			System.out.println("uuu");
-//			System.out.println(deal.getD_end());
-//			System.out.println(deal.getD_start());
-//		}
 		return deals;
 	}
 
@@ -36,9 +32,8 @@ public class DealsServiceImpl implements DealsService {
 		Date now;
 		try {
 			now = sdf.parse(datetime);
-			List<Deals> result = deals.stream()                
-	                .filter(deal -> deal.getD_end().compareTo(now) > 0)
-	                .collect(Collectors.toList()); 
+			List<Deals> result = deals.stream().filter(deal -> deal.getEnd().compareTo(now) > 0)
+					.filter(x -> x.getActive_status().equals(true)).collect(Collectors.toList());
 			return result;
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -52,9 +47,12 @@ public class DealsServiceImpl implements DealsService {
 		Date now;
 		try {
 			now = sdf.parse(datetime);
-			List<Deals> result = deals.stream()                
-	                .filter(deal -> deal.getD_end().compareTo(now) < 0)
-	                .collect(Collectors.toList()); 
+			for (Deals d : deals.stream().filter(deal -> deal.getEnd().compareTo(now) < 0)
+					.collect(Collectors.toList())) {
+				d.setActive_status(false);
+			}
+			List<Deals> result = deals.stream().filter(x -> x.getActive_status().equals(false))
+					.collect(Collectors.toList());
 			return result;
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -63,24 +61,64 @@ public class DealsServiceImpl implements DealsService {
 	}
 
 	@Override
-	public Deals getDeals(Integer d_id) {
-		return deals.stream().filter(x -> x.getD_id() == d_id).findAny().orElse(new Deals(0, "Not available"));
+	public List<Deals> getAllDealsByRestaurant(Integer r_id) {
+		List<Deals> result = deals.stream().filter(x -> x.getR_id() == r_id).collect(Collectors.toList());
+		return result;
 	}
 
 	@Override
-	public void createDeals(Integer d_id, String d_code, String d_name, String d_desc, Integer d_type, Double d_amount, Integer d_max_val, Integer d_min_val, Integer d_limit_use, Boolean d_limit_one_cust,
-			Boolean d_new_cust_only, String d_start, String d_end, String create_at) {
-
-		Date start;
-		Date end;
-		Date create;
-		
+	public List<Deals> getActiveDealsByRestaurant(Integer r_id) {
+		String datetime = sdf.format(date);
+		Date now;
 		try {
-			start 	= sdf.parse(d_start);
-			end		= sdf.parse(d_end);
-			create 	= sdf.parse(create_at);
-			
-			Deals deal = new Deals(d_id, d_code, d_name, d_desc, d_type, d_amount, d_max_val, d_min_val, d_limit_use, d_limit_one_cust, d_new_cust_only, start, end, create, null);
+			now = sdf.parse(datetime);
+			List<Deals> result = deals.stream().filter(x -> x.getR_id() == r_id)
+					.filter(deal -> deal.getEnd().compareTo(now) > 0).filter(x -> x.getActive_status().equals(true))
+					.collect(Collectors.toList());
+			return result;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Deals> getExpDealsByRestaurant(Integer r_id) {
+		String datetime = sdf.format(date);
+		Date now;
+		try {
+			now = sdf.parse(datetime);
+			for (Deals d : deals.stream().filter(x -> x.getR_id() == r_id)
+					.filter(deal -> deal.getEnd().compareTo(now) < 0).collect(Collectors.toList())) {
+				d.setActive_status(false);
+			}
+			List<Deals> result = deals.stream().filter(x -> x.getR_id() == r_id)
+					.filter(x -> x.getActive_status().equals(false)).collect(Collectors.toList());
+			return result;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Deals getDeals(Integer r_id, Integer id) {
+		return deals.stream().filter(x -> x.getR_id() == r_id).filter(x -> x.getId() == id).findAny().orElse(null);
+	}
+
+	@Override
+	public void createDeals(Integer id, Integer r_id, String code, String name, String desc, Integer type,
+			Double amount, Double max_val, Double min_val, Integer total_limit_use, Integer limit_use_per_user,
+			Boolean new_cust_only, Boolean active_status, String start, String end) {
+		Date starts;
+		Date ends;
+
+		try {
+			starts = sdf.parse(start);
+			ends = sdf.parse(end);
+
+			Deals deal = new Deals(id, r_id, code, name, desc, type, amount, max_val, min_val, total_limit_use,
+					limit_use_per_user, new_cust_only, active_status, starts, ends);
 
 			deals.add(deal);
 		} catch (ParseException e) {
@@ -91,37 +129,31 @@ public class DealsServiceImpl implements DealsService {
 	}
 
 	@Override
-	public void updateDeals(Integer d_id, String d_code, String d_name, String d_desc, Integer d_type, Double d_amount, Integer d_max_val, Integer d_min_val, Integer d_limit_use, Boolean d_limit_one_cust,
-			Boolean d_new_cust_only, String d_start, String d_end, String update_at) {
-		
-		Date start;
-		Date end;
-		Date update;
-		
+	public void updateDeals(Integer id, Integer r_id, String code, String name, String desc, Integer type,
+			Double amount, Double max_val, Double min_val, Integer total_limit_use, Integer limit_use_per_user,
+			Boolean new_cust_only, Boolean active_status, String start, String end) {
+		Date starts;
+		Date ends;
+
 		try {
-			start 	= sdf.parse(d_start);
-			end		= sdf.parse(d_end);
-			update	= sdf.parse(update_at);
-			
-			deals.stream().filter(x -> x.getD_id() == d_id).findAny()
-			.orElseThrow(() -> new RuntimeException("Item not found")).update(d_code, d_name, d_desc, d_type,
-					d_amount, d_max_val, d_min_val, d_limit_use, d_limit_one_cust, d_new_cust_only, start, end, update);
+			starts = sdf.parse(start);
+			ends = sdf.parse(end);
+
+			deals.stream().filter(x -> x.getR_id() == r_id).filter(x -> x.getId() == id).findAny()
+					.orElseThrow(() -> new RuntimeException("Item not found")).update(code, name, desc, type, amount,
+							max_val, min_val, total_limit_use, limit_use_per_user, new_cust_only,
+							active_status, starts, ends);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
-	public void deleteDeals(Integer d_id) {
-		deals.removeIf((Deals u) -> u.getD_id() == d_id);
-	}
-
-	@Override
-	public void useDeals(String d_code) {
-		Deals res = deals.stream().filter(x -> x.getD_code() == d_code).findAny().orElse(null);
-		res.setD_limit_use(res.getD_limit_use()-1);
+	public void deleteDeals(Integer r_id, Integer id) {
+		deals.stream().filter(x -> x.getR_id() == r_id).filter(x -> x.getId() == id).findAny()
+				.orElseThrow(() -> new RuntimeException("Item not found")).setActive_status(false);
 	}
 
 }

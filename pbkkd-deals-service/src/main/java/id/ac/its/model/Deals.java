@@ -15,11 +15,10 @@ public class Deals {
 	String desc;
 	Integer type; // percent is 0 and money is 1
 	Double amount;
-	Integer max_val; // given the maximum value for redeemed voucher
-	Integer min_val; // given the minimum value for transaction/using voucher
+	Double max_val; // given the maximum value for redeemed voucher
+	Double min_val; // given the minimum value for transaction/using voucher
 	Integer total_limit_use;
 	Integer limit_use_per_user; // how many time the voucher can be redeemed by user
-	Boolean limit_one_cust_only; // each user only have one chance to redeem the voucher
 	Boolean new_cust_only;
 	Boolean active_status;
 	Date start;
@@ -36,8 +35,8 @@ public class Deals {
 	}
 
 	public Deals(Integer id, Integer r_id, String code, String name, String desc, Integer type, Double amount,
-			Integer max_val, Integer min_val, Integer total_limit_use, Integer limit_use_per_user,
-			Boolean limit_one_cust_only, Boolean new_cust_only, Boolean active_status, Date start, Date end) {
+			Double max_val, Double min_val, Integer total_limit_use, Integer limit_use_per_user, Boolean new_cust_only,
+			Boolean active_status, Date start, Date end) {
 		super();
 		this.id = id;
 		this.r_id = r_id;
@@ -50,7 +49,6 @@ public class Deals {
 		this.min_val = min_val;
 		this.total_limit_use = total_limit_use;
 		this.limit_use_per_user = limit_use_per_user;
-		this.limit_one_cust_only = limit_one_cust_only;
 		this.new_cust_only = new_cust_only;
 		this.active_status = active_status;
 		this.start = start;
@@ -66,10 +64,10 @@ public class Deals {
 		}
 	}
 
-	public void update(String code, String name, String desc, Integer type, Double amount,
-			Integer max_val, Integer min_val, Integer total_limit_use, Integer limit_use_per_user,
-			Boolean limit_one_cust_only, Boolean new_cust_only, Boolean active_status, Date start, Date end) {
-		
+	public void update(String code, String name, String desc, Integer type, Double amount, Double max_val,
+			Double min_val, Integer total_limit_use, Integer limit_use_per_user, Boolean new_cust_only,
+			Boolean active_status, Date start, Date end) {
+
 		this.code = code;
 		this.name = name;
 		this.desc = desc;
@@ -79,12 +77,11 @@ public class Deals {
 		this.min_val = min_val;
 		this.total_limit_use = total_limit_use;
 		this.limit_use_per_user = limit_use_per_user;
-		this.limit_one_cust_only = limit_one_cust_only;
 		this.new_cust_only = new_cust_only;
 		this.active_status = active_status;
 		this.start = start;
 		this.end = end;
-		
+
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		try {
 			this.update_at = sdf.parse(sdf.format(timestamp));
@@ -158,19 +155,19 @@ public class Deals {
 		this.amount = amount;
 	}
 
-	public Integer getMax_val() {
+	public Double getMax_val() {
 		return max_val;
 	}
 
-	public void setMax_val(Integer max_val) {
+	public void setMax_val(Double max_val) {
 		this.max_val = max_val;
 	}
 
-	public Integer getMin_val() {
+	public Double getMin_val() {
 		return min_val;
 	}
 
-	public void setMin_val(Integer min_val) {
+	public void setMin_val(Double min_val) {
 		this.min_val = min_val;
 	}
 
@@ -190,14 +187,6 @@ public class Deals {
 		this.limit_use_per_user = limit_use_per_user;
 	}
 
-	public Boolean getLimit_one_cust_only() {
-		return limit_one_cust_only;
-	}
-
-	public void setLimit_one_cust_only(Boolean limit_one_cust_only) {
-		this.limit_one_cust_only = limit_one_cust_only;
-	}
-
 	public Boolean getNew_cust_only() {
 		return new_cust_only;
 	}
@@ -205,7 +194,7 @@ public class Deals {
 	public void setNew_cust_only(Boolean new_cust_only) {
 		this.new_cust_only = new_cust_only;
 	}
-	
+
 	public Boolean getActive_status() {
 		return active_status;
 	}
@@ -251,7 +240,7 @@ public class Deals {
 		return "Deals [id=" + id + ", r_id=" + r_id + ", u_id=" + u_id + ", code=" + code + ", name=" + name + ", desc="
 				+ desc + ", type=" + type + ", amount=" + amount + ", max_val=" + max_val + ", min_val=" + min_val
 				+ ", total_limit_use=" + total_limit_use + ", limit_use_per_user=" + limit_use_per_user
-				+ ", limit_one_cust_only=" + limit_one_cust_only + ", new_cust_only=" + new_cust_only
+				+ ", new_cust_only=" + new_cust_only
 				+ ", active_status=" + active_status + ", start=" + start + ", end=" + end + ", create_at=" + create_at
 				+ ", update_at=" + update_at + "]";
 	}
