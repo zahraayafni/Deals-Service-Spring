@@ -5,24 +5,52 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "deals")
 public class Deals {
 
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
 	Integer id;
+	@Column(name = "r_id", nullable = false)
 	Integer r_id; // id for restaurant
+	@Column(name = "code", nullable = false)
 	String code;
+	@Column(name = "name")
 	String name;
+	@Column(name = "desc")
 	String desc;
+	@Column(name = "type")
 	Integer type; // percent is 0 and money is 1
+	@Column(name = "amount")
 	Double amount;
+	@Column(name = "max_val")
 	Double max_val; // given the maximum value for redeemed voucher
+	@Column(name = "min_val")
 	Double min_val; // given the minimum value for transaction/using voucher
+	@Column(name = "total_limit_use")
 	Integer total_limit_use;
+	@Column(name = "limit_use_per_user")
 	Integer limit_use_per_user; // how many time the voucher can be redeemed by user
+	@Column(name = "new_cust_only")
 	Boolean new_cust_only;
+	@Column(name = "active_status")
 	Boolean active_status;
+	@Column(name = "start")
 	Date start;
+	@Column(name = "end")
 	Date end;
+	@Column(name = "create_at")
 	Date create_at;
+	@Column(name = "update_at")
 	Date update_at;
 
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

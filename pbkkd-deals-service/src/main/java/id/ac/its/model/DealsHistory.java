@@ -5,11 +5,29 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "deals_history")
 public class DealsHistory {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "dh_id", nullable = false)
+	Integer dh_id;
+	@Column(name = "u_id", nullable = false)
 	Integer u_id;
+	@Column(name = "id", nullable = false)
 	Integer id;
+	@Column(name = "r_id", nullable = false)
 	Integer r_id;
+	@Column(name = "count")
 	Integer count;
+	@Column(name = "create_at")
 	Date create_at;
 	
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
