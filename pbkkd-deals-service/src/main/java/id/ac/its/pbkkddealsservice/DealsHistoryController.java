@@ -40,7 +40,10 @@ public class DealsHistoryController {
 
 		Map<String, Object> map = new LinkedHashMap<>();
 		dealsHistoryService.useDeals(u_id, r_id, id);
-		map.put("result", "added");
+//		map.put("result", "added");
+		map.put("u_id", u_id);
+		map.put("r_id", r_id);
+		map.put("id", id);
 		return map;
 	}
 }
