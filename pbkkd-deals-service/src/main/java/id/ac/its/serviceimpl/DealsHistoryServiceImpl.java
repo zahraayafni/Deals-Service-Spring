@@ -1,4 +1,4 @@
-package id.ac.its.service;
+package id.ac.its.serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import id.ac.its.model.Deals;
 import id.ac.its.model.DealsHistory;
+import id.ac.its.service.DealsHistoryService;
 
 @Service
 public class DealsHistoryServiceImpl implements DealsHistoryService {

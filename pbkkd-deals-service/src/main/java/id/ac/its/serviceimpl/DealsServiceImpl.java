@@ -1,4 +1,4 @@
-package id.ac.its.service;
+package id.ac.its.serviceimpl;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import id.ac.its.model.Deals;
+import id.ac.its.service.DealsService;
 
 @Service
 public class DealsServiceImpl implements DealsService {

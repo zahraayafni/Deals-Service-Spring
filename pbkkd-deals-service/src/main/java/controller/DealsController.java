@@ -1,4 +1,4 @@
-package id.ac.its.pbkkddealsservice;
+package controller;
 
 import java.util.LinkedHashMap;
 import java.util.List;
