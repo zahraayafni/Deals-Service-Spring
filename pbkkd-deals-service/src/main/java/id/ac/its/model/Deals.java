@@ -11,8 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-@Entity
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@Entity(name = "deals")
 @Table(name = "deals")
 public class Deals {
 
@@ -26,8 +30,8 @@ public class Deals {
 	String code;
 	@Column(name = "name")
 	String name;
-	@Column(name = "desc")
-	String desc;
+	@Column(name = "description")
+	String description;
 	@Column(name = "type")
 	Integer type; // percent is 0 and money is 1
 	@Column(name = "amount")
@@ -44,13 +48,21 @@ public class Deals {
 	Boolean new_cust_only;
 	@Column(name = "active_status")
 	Boolean active_status;
-	@Column(name = "start")
+	@Column(name = "start", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date start;
-	@Column(name = "end")
+	@Column(name = "end", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date end;
-	@Column(name = "create_at")
+	@Column(name = "create_at", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date create_at;
-	@Column(name = "update_at")
+	@Column(name = "update_at", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date update_at;
 
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -61,15 +73,14 @@ public class Deals {
 		this.name = name;
 	}
 
-	public Deals(Integer id, Integer r_id, String code, String name, String desc, Integer type, Double amount,
+	public Deals(Integer r_id, String code, String name, String desc, Integer type, Double amount,
 			Double max_val, Double min_val, Integer total_limit_use, Integer limit_use_per_user, Boolean new_cust_only,
 			Boolean active_status, Date start, Date end) {
 		super();
-		this.id = id;
 		this.r_id = r_id;
 		this.code = code;
 		this.name = name;
-		this.desc = desc;
+		this.description = desc;
 		this.type = type;
 		this.amount = amount;
 		this.max_val = max_val;
@@ -91,13 +102,17 @@ public class Deals {
 		}
 	}
 
+	public Deals() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void update(String code, String name, String desc, Integer type, Double amount, Double max_val,
 			Double min_val, Integer total_limit_use, Integer limit_use_per_user, Boolean new_cust_only,
 			Boolean active_status, Date start, Date end) {
 
 		this.code = code;
 		this.name = name;
-		this.desc = desc;
+		this.description = desc;
 		this.type = type;
 		this.amount = amount;
 		this.max_val = max_val;
@@ -151,11 +166,11 @@ public class Deals {
 	}
 
 	public String getDesc() {
-		return desc;
+		return description;
 	}
 
 	public void setDesc(String desc) {
-		this.desc = desc;
+		this.description = desc;
 	}
 
 	public Integer getType() {
@@ -257,7 +272,7 @@ public class Deals {
 	@Override
 	public String toString() {
 		return "Deals [id=" + id + ", r_id=" + r_id + ", code=" + code + ", name=" + name + ", desc="
-				+ desc + ", type=" + type + ", amount=" + amount + ", max_val=" + max_val + ", min_val=" + min_val
+				+ description + ", type=" + type + ", amount=" + amount + ", max_val=" + max_val + ", min_val=" + min_val
 				+ ", total_limit_use=" + total_limit_use + ", limit_use_per_user=" + limit_use_per_user
 				+ ", new_cust_only=" + new_cust_only
 				+ ", active_status=" + active_status + ", start=" + start + ", end=" + end + ", create_at=" + create_at

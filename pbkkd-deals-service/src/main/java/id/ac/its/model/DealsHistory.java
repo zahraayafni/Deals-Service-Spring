@@ -11,8 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-@Entity
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@Entity(name = "deals_history")
 @Table(name = "deals_history")
 public class DealsHistory {
 	@Id
@@ -27,26 +31,21 @@ public class DealsHistory {
 	Integer r_id;
 	@Column(name = "count")
 	Integer count;
-	@Column(name = "create_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "create_at", columnDefinition="DATETIME")
 	Date create_at;
 	
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-	public DealsHistory(Integer u_id, Integer id, Integer r_id) {
+	public DealsHistory() {
 		super();
-		this.u_id = u_id;
+	}
+
+	public DealsHistory(Integer r_id, Integer id) {
+		super();
 		this.id = id;
 		this.r_id = r_id;
-		this.count = 1;
-		
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-		try {
-			this.create_at = sdf.parse(sdf.format(timestamp));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public Integer getU_id() {

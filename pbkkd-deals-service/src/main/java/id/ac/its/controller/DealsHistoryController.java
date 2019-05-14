@@ -1,11 +1,15 @@
-package controller;
+package id.ac.its.controller;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import id.ac.its.model.DealsHistory;
 import id.ac.its.service.DealsHistoryService;
 
-@RestController
+@Controller
 @RequestMapping("/history")
 public class DealsHistoryController {
 
@@ -23,27 +27,31 @@ public class DealsHistoryController {
 	DealsHistoryService dealsHistoryService;
 
 	@ResponseBody
-	@RequestMapping("/use/{u_id}")
+	@GetMapping("/use/{u_id}")
 	public List<DealsHistory> getUserHistory(@PathVariable("u_id") Integer u_id) {
 		return dealsHistoryService.getUserHistory(u_id);
 	}
 
-	@RequestMapping(value = "/check/{u_id}", method = RequestMethod.POST)
-	public Double checkDeals(@PathVariable("u_id") Integer u_id, @RequestParam(value = "id") Integer id,
+	@ResponseBody
+	@PostMapping("/check/{u_id}")
+	public Map<String, Object> checkDeals(@PathVariable("u_id") Integer u_id, @RequestParam(value = "id") Integer id,
 			@RequestParam(value = "r_id") Integer r_id, @RequestParam(value = "total_amount") Double total_amount) {
-		return dealsHistoryService.checkDeals(u_id, r_id, r_id, total_amount);
+		Map<String, Object> map = new LinkedHashMap<>();
+		map.put("disc_amount", dealsHistoryService.checkDeals(u_id, r_id, id, total_amount));
+		return map;
 	}
 
-	@RequestMapping(value = "/use/{u_id}", method = RequestMethod.POST)
-	public Map<String, Object> useDeals(@PathVariable("u_id") Integer u_id, @RequestParam(value = "id") Integer id,
-			@RequestParam(value = "r_id") Integer r_id) {
+	@ResponseBody
+	@PostMapping("/use/{u_id}")
+	public Map<String, Object> useDeals(@PathVariable("u_id") Integer u_id, @RequestBody DealsHistory dh) {
 
 		Map<String, Object> map = new LinkedHashMap<>();
-		dealsHistoryService.useDeals(u_id, r_id, id);
-//		map.put("result", "added");
-		map.put("u_id", u_id);
-		map.put("r_id", r_id);
-		map.put("id", id);
+		dealsHistoryService.useDeals(dh, u_id);
+		map.put("status", "200 (OK)");
+		map.put("u_id", dh.getU_id());
+		map.put("r_id", dh.getR_id());
+		map.put("id", dh.getId());
+		map.put("count", dh.getCount());
 		return map;
 	}
 }

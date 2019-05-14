@@ -12,12 +12,8 @@ public interface DealsService {
 	List<Deals> getActiveDealsByRestaurant(Integer r_id);
 	List<Deals> getExpDealsByRestaurant(Integer r_id);
 	Deals getDeals(Integer r_id, Integer id);
-	void createDeals(Integer id, Integer r_id, String code, String name, String desc, Integer type, Double amount,
-			Double max_val, Double min_val, Integer total_limit_use, Integer limit_use_per_user,
-			Boolean new_cust_only, Boolean active_status, String start, String end);
-	void updateDeals(Integer id, Integer r_id, String code, String name, String desc, Integer type, Double amount,
-			Double max_val, Double min_val, Integer total_limit_use, Integer limit_use_per_user,
-			Boolean new_cust_only, Boolean active_status, String start, String end);
-	void deleteDeals(Integer r_id, Integer id);
+	Deals createDeals(Deals deals, Integer r_id);
+	Deals updateDeals(Deals deals, Integer r_id, Integer id);
+	Deals deleteDeals(Integer r_id, Integer id);
 	
 }

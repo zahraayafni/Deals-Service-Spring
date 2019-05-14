@@ -1,31 +1,44 @@
 package id.ac.its.serviceimpl;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import id.ac.its.model.Deals;
 import id.ac.its.model.DealsHistory;
+import id.ac.its.repository.DealsHistoryRepository;
+import id.ac.its.repository.DealsRepository;
 import id.ac.its.service.DealsHistoryService;
 
 @Service
 public class DealsHistoryServiceImpl implements DealsHistoryService {
-	public static List<DealsHistory> dealsHistory = new ArrayList<DealsHistory>();
+	@Autowired
+	DealsHistoryRepository dealsHistoryRepository;
+	
+	@Autowired
+	DealsRepository dealsRepository;
+	
+	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
 	@Override
 	public List<DealsHistory> getUserHistory(Integer u_id) {
-		return dealsHistory.stream().filter(x -> x.getU_id() == u_id).collect(Collectors.toList());
+		return dealsHistoryRepository.findAllUserHistory(u_id);
 	}
 
 	@Override
 	public Double checkDeals(Integer u_id, Integer r_id, Integer id, Double total_amount) {
-		DealsHistory dealsRecord = dealsHistory.stream().filter(x -> x.getU_id() == u_id)
-				.filter(x -> x.getR_id() == r_id).filter(x -> x.getId() == id).findAny().orElse(null);
-		Deals deals = DealsServiceImpl.deals.stream().filter(x -> x.getR_id() == r_id).filter(x -> x.getId() == id)
-				.findAny().orElse(null);
-
+		DealsHistory dealsRecord = dealsHistoryRepository.findSpecificUserHistory(u_id, r_id, id);
+		Deals deals = dealsRepository.findADealsByRestaurant(r_id, id);
+		
 		Double disc_amount = 0.0;
 		if (dealsRecord != null && deals != null) {
 			/*
@@ -82,24 +95,34 @@ public class DealsHistoryServiceImpl implements DealsHistoryService {
 	}
 
 	@Override
-	public void useDeals(Integer u_id, Integer r_id, Integer id) {
-		DealsHistory dealsRecord = dealsHistory.stream().filter(x -> x.getU_id() == u_id)
-				.filter(x -> x.getR_id() == r_id).filter(x -> x.getId() == id).findAny().orElse(null);
+	public DealsHistory useDeals(DealsHistory dealsHistory, Integer u_id) {
+		DealsHistory dealsRecord = dealsHistoryRepository.findSpecificUserHistory(u_id, dealsHistory.getR_id(), dealsHistory.getId());
 
-		Deals d = DealsServiceImpl.deals.stream().filter(x -> x.getR_id() == r_id).filter(x -> x.getId() == id)
-				.findAny().orElse(null);
+		Deals d = dealsRepository.findADealsByRestaurant(dealsHistory.getR_id(), dealsHistory.getId());
+		d.setTotal_limit_use(d.getTotal_limit_use() - 1);
+		d = dealsRepository.save(d);
+		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Date current = null;
 
-		DealsServiceImpl.deals.stream().filter(x -> x.getR_id() == r_id).filter(x -> x.getId() == id).findAny()
-				.orElse(null).setTotal_limit_use(d.getTotal_limit_use() - 1);
+		try {
+			current = sdf.parse(sdf.format(timestamp));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		if (dealsRecord != null) {
-			Integer currentCount = dealsRecord.getCount();
-			dealsHistory.stream().filter(x -> x.getU_id() == u_id).filter(x -> x.getR_id() == r_id)
-					.filter(x -> x.getId() == id).findAny().orElse(null).setCount(currentCount + 1);
+			Integer currentCount = dealsHistory.getCount();
+			dealsHistory.setCount(currentCount + 1);
+			dealsHistory.setCreate_at(current);
 		} else {
-			DealsHistory dealsH = new DealsHistory(u_id, id, r_id);
-			dealsHistory.add(dealsH);
+			dealsHistory.setU_id(u_id);
+			dealsHistory.setCount(1);
+			dealsHistory.setCreate_at(current);
 		}
+		return dealsHistory = dealsHistoryRepository.save(dealsHistory);
+		
 	}
 
 }
