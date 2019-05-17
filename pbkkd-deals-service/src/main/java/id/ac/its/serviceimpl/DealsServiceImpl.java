@@ -112,10 +112,10 @@ public class DealsServiceImpl implements DealsService {
 	public Deals updateDeals(Deals dealsReq, Integer r_id, Integer id) {
 		Deals deals = dealsRepository.findADealsByRestaurant(r_id, id);
 		if (deals != null) {
-			deals.update(dealsReq.getCode(), dealsReq.getName(), dealsReq.getDesc(), dealsReq.getType(),
+			deals.update(dealsReq.getCode(), dealsReq.getName(), dealsReq.getDescription(), dealsReq.getType(),
 					dealsReq.getAmount(), dealsReq.getMax_val(), dealsReq.getMin_val(), dealsReq.getTotal_limit_use(),
 					dealsReq.getLimit_use_per_user(), dealsReq.getNew_cust_only(), dealsReq.getActive_status(),
-					dealsReq.getStart(), dealsReq.getEnd());
+					dealsReq.getStart(), dealsReq.getEnd_time());
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
 			try {
@@ -139,6 +139,11 @@ public class DealsServiceImpl implements DealsService {
 			return deals;
 		}
 		return deals;
+	}
+
+	@Override
+	public Deals getDealsByCode(Integer r_id, String code) {
+		return dealsRepository.findADealsRestaurantByCode(r_id, code);
 	}
 
 }

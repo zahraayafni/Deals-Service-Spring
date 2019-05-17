@@ -6,6 +6,7 @@ import id.ac.its.model.DealsHistory;
 
 public interface DealsHistoryService {
 	List<DealsHistory> getUserHistory(Integer u_id);
-	public Double checkDeals(Integer u_id, Integer r_id, Integer id, Double total_amount );
+	List<DealsHistory> getRestaurantHistory(Integer r_id);
+	public Double checkDeals(Integer u_id, Integer r_id, String code, Double total_amount );
 	public DealsHistory useDeals(DealsHistory dealsHistory, Integer u_id);
 }

@@ -48,19 +48,19 @@ public class Deals {
 	Boolean new_cust_only;
 	@Column(name = "active_status")
 	Boolean active_status;
-	@Column(name = "start", columnDefinition="DATETIME")
+	@Column(name = "start", columnDefinition="TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date start;
-	@Column(name = "end", columnDefinition="DATETIME")
+	@Column(name = "end_time", columnDefinition="TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	Date end;
-	@Column(name = "create_at", columnDefinition="DATETIME")
+	Date end_time;
+	@Column(name = "create_at", columnDefinition="TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date create_at;
-	@Column(name = "update_at", columnDefinition="DATETIME")
+	@Column(name = "update_at", columnDefinition="TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date update_at;
@@ -73,14 +73,14 @@ public class Deals {
 		this.name = name;
 	}
 
-	public Deals(Integer r_id, String code, String name, String desc, Integer type, Double amount,
+	public Deals(Integer r_id, String code, String name, String description, Integer type, Double amount,
 			Double max_val, Double min_val, Integer total_limit_use, Integer limit_use_per_user, Boolean new_cust_only,
-			Boolean active_status, Date start, Date end) {
+			Boolean active_status, Date start, Date end_time) {
 		super();
 		this.r_id = r_id;
 		this.code = code;
 		this.name = name;
-		this.description = desc;
+		this.description = description;
 		this.type = type;
 		this.amount = amount;
 		this.max_val = max_val;
@@ -90,7 +90,7 @@ public class Deals {
 		this.new_cust_only = new_cust_only;
 		this.active_status = active_status;
 		this.start = start;
-		this.end = end;
+		this.end_time = end_time;
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
@@ -106,13 +106,13 @@ public class Deals {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void update(String code, String name, String desc, Integer type, Double amount, Double max_val,
+	public void update(String code, String name, String description, Integer type, Double amount, Double max_val,
 			Double min_val, Integer total_limit_use, Integer limit_use_per_user, Boolean new_cust_only,
-			Boolean active_status, Date start, Date end) {
+			Boolean active_status, Date start, Date end_time) {
 
 		this.code = code;
 		this.name = name;
-		this.description = desc;
+		this.description = description;
 		this.type = type;
 		this.amount = amount;
 		this.max_val = max_val;
@@ -122,7 +122,7 @@ public class Deals {
 		this.new_cust_only = new_cust_only;
 		this.active_status = active_status;
 		this.start = start;
-		this.end = end;
+		this.end_time = end_time;
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		try {
@@ -131,6 +131,22 @@ public class Deals {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getEnd_time() {
+		return end_time;
+	}
+
+	public void setEnd_time(Date end_time) {
+		this.end_time = end_time;
 	}
 
 	public Integer getId() {
@@ -163,14 +179,6 @@ public class Deals {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDesc() {
-		return description;
-	}
-
-	public void setDesc(String desc) {
-		this.description = desc;
 	}
 
 	public Integer getType() {
@@ -245,14 +253,6 @@ public class Deals {
 		this.start = start;
 	}
 
-	public Date getEnd() {
-		return end;
-	}
-
-	public void setEnd(Date end) {
-		this.end = end;
-	}
-
 	public Date getCreate_at() {
 		return create_at;
 	}
@@ -271,12 +271,11 @@ public class Deals {
 
 	@Override
 	public String toString() {
-		return "Deals [id=" + id + ", r_id=" + r_id + ", code=" + code + ", name=" + name + ", desc="
-				+ description + ", type=" + type + ", amount=" + amount + ", max_val=" + max_val + ", min_val=" + min_val
-				+ ", total_limit_use=" + total_limit_use + ", limit_use_per_user=" + limit_use_per_user
-				+ ", new_cust_only=" + new_cust_only
-				+ ", active_status=" + active_status + ", start=" + start + ", end=" + end + ", create_at=" + create_at
-				+ ", update_at=" + update_at + "]";
+		return "Deals [id=" + id + ", r_id=" + r_id + ", code=" + code + ", name=" + name + ", description="
+				+ description + ", type=" + type + ", amount=" + amount + ", max_val=" + max_val + ", min_val="
+				+ min_val + ", total_limit_use=" + total_limit_use + ", limit_use_per_user=" + limit_use_per_user
+				+ ", new_cust_only=" + new_cust_only + ", active_status=" + active_status + ", start=" + start
+				+ ", end_time=" + end_time + ", create_at=" + create_at + ", update_at=" + update_at + "]";
 	}
 
 }

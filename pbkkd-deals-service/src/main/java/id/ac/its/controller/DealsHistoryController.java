@@ -23,26 +23,34 @@ import id.ac.its.service.DealsHistoryService;
 @RequestMapping("/history")
 public class DealsHistoryController {
 
+	//CEK HISTORI PENGGUNAAN DEALS
+	
 	@Autowired
 	DealsHistoryService dealsHistoryService;
 
 	@ResponseBody
-	@GetMapping("/use/{u_id}")
+	@GetMapping("/user/{u_id}")
 	public List<DealsHistory> getUserHistory(@PathVariable("u_id") Integer u_id) {
 		return dealsHistoryService.getUserHistory(u_id);
+	}
+	
+	@ResponseBody
+	@GetMapping("/restaurant/{r_id}")
+	public List<DealsHistory> getRestaurantHistory(@PathVariable("r_id") Integer r_id) {
+		return dealsHistoryService.getRestaurantHistory(r_id);
 	}
 
 	@ResponseBody
 	@PostMapping("/check/{u_id}")
-	public Map<String, Object> checkDeals(@PathVariable("u_id") Integer u_id, @RequestParam(value = "id") Integer id,
+	public Map<String, Object> checkDeals(@PathVariable("u_id") Integer u_id, @RequestParam(value = "code") String code,
 			@RequestParam(value = "r_id") Integer r_id, @RequestParam(value = "total_amount") Double total_amount) {
 		Map<String, Object> map = new LinkedHashMap<>();
-		map.put("disc_amount", dealsHistoryService.checkDeals(u_id, r_id, id, total_amount));
+		map.put("disc_amount", dealsHistoryService.checkDeals(u_id, r_id, code, total_amount));
 		return map;
 	}
 
 	@ResponseBody
-	@PostMapping("/use/{u_id}")
+	@PostMapping("/user/{u_id}")
 	public Map<String, Object> useDeals(@PathVariable("u_id") Integer u_id, @RequestBody DealsHistory dh) {
 
 		Map<String, Object> map = new LinkedHashMap<>();
@@ -51,7 +59,7 @@ public class DealsHistoryController {
 		map.put("u_id", dh.getU_id());
 		map.put("r_id", dh.getR_id());
 		map.put("id", dh.getId());
-		map.put("count", dh.getCount());
+		map.put("create_at", dh.getCreate_at());
 		return map;
 	}
 }

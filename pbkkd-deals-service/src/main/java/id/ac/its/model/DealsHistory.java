@@ -29,11 +29,9 @@ public class DealsHistory {
 	Integer id;
 	@Column(name = "r_id", nullable = false)
 	Integer r_id;
-	@Column(name = "count")
-	Integer count;
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "create_at", columnDefinition="DATETIME")
+	@Column(name = "create_at", columnDefinition="TIMESTAMP")
 	Date create_at;
 	
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -56,28 +54,12 @@ public class DealsHistory {
 		this.u_id = u_id;
 	}
 	
-	public Integer getId() {
-		return id;
-	}
-	
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
 	public Integer getR_id() {
 		return r_id;
 	}
 	
 	public void setR_id(Integer r_id) {
 		this.r_id = r_id;
-	}
-		
-	public int getCount() {
-		return count;
-	}
-	
-	public void setCount(int count) {
-		this.count = count;
 	}
 	
 	public Date getCreate_at() {
@@ -88,10 +70,25 @@ public class DealsHistory {
 		this.create_at = create_at;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getDh_id() {
+		return dh_id;
+	}
+
+	public void setDh_id(Integer dh_id) {
+		this.dh_id = dh_id;
+	}
+
 	@Override
 	public String toString() {
-		return "DealsHistory [u_id=" + u_id + ", id=" + id + ", r_id=" + r_id + ", count=" + count + ", create_at="
-				+ create_at + "]";
-	}	
-
+		return "DealsHistory [dh_id=" + dh_id + ", u_id=" + u_id + ", id=" + id + ", r_id=" + r_id + ", create_at=" + create_at + "]";
+	}
+	
 }

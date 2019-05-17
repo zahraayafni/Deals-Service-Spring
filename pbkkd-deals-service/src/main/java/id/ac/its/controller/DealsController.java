@@ -69,6 +69,12 @@ public class DealsController {
 	public Deals getDeals(@PathVariable("r_id") Integer r_id, @PathVariable("id") Integer id) {
 		return dealsService.getDeals(r_id, id);
 	}
+	
+	@ResponseBody
+	@GetMapping("/{r_id}/code")
+	public Deals getDealsByCode(@PathVariable("r_id") Integer r_id, @RequestParam("code") String code) {
+		return dealsService.getDealsByCode(r_id, code);
+	}
 
 	@ResponseBody
 	@PostMapping("/{r_id}")
@@ -83,7 +89,7 @@ public class DealsController {
 		map.put("r_id", r_id);
 		map.put("code", deals.getCode());
 		map.put("name", deals.getName());
-		map.put("desc", deals.getDesc());
+		map.put("description", deals.getDescription());
 		map.put("type", deals.getType());
 		map.put("amount", deals.getAmount());
 		map.put("max_val", deals.getMax_val());
@@ -93,7 +99,7 @@ public class DealsController {
 		map.put("new_cust_only", deals.getNew_cust_only());
 		map.put("active_status", deals.getActive_status());
 		map.put("start", deals.getStart());
-		map.put("end", deals.getEnd());
+		map.put("end_time", deals.getEnd_time());
 		return map;
 	}
 
@@ -103,13 +109,12 @@ public class DealsController {
 			@RequestBody Deals deals) {
 		Map<String, Object> map = new LinkedHashMap<>();
 		dealsService.updateDeals(deals, r_id, id);
-//		map.put("result", "updated");
 		map.put("status", "200 (OK)");
 		map.put("id", id);
 		map.put("r_id", r_id);
 		map.put("code", deals.getCode());
 		map.put("name", deals.getName());
-		map.put("desc", deals.getDesc());
+		map.put("description", deals.getDescription());
 		map.put("type", deals.getType());
 		map.put("amount", deals.getAmount());
 		map.put("max_val", deals.getMax_val());
@@ -119,7 +124,7 @@ public class DealsController {
 		map.put("new_cust_only", deals.getNew_cust_only());
 		map.put("active_status", deals.getActive_status());
 		map.put("start", deals.getStart());
-		map.put("end", deals.getEnd());
+		map.put("end_time", deals.getEnd_time());
 		return map;
 	}
 

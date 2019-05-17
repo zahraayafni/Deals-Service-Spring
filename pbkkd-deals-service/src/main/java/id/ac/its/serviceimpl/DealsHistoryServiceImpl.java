@@ -31,23 +31,24 @@ public class DealsHistoryServiceImpl implements DealsHistoryService {
 
 	@Override
 	public List<DealsHistory> getUserHistory(Integer u_id) {
-		return dealsHistoryRepository.findAllUserHistory(u_id);
+		return dealsHistoryRepository.findAUserHistory(u_id);
 	}
 
 	@Override
-	public Double checkDeals(Integer u_id, Integer r_id, Integer id, Double total_amount) {
-		DealsHistory dealsRecord = dealsHistoryRepository.findSpecificUserHistory(u_id, r_id, id);
-		Deals deals = dealsRepository.findADealsByRestaurant(r_id, id);
+	public Double checkDeals(Integer u_id, Integer r_id, String code, Double total_amount) {
+		Deals deals = dealsRepository.findADealsRestaurantByCode(r_id, code);
+		List<DealsHistory> dealsRecord = dealsHistoryRepository.findSpecificDealsHistory(u_id, r_id, deals.getId());
 		
 		Double disc_amount = 0.0;
-		if (dealsRecord != null && deals != null) {
+		Integer historySize = dealsRecord.size();
+		if (historySize != 0 && deals != null) {
 			/*
 			 * Cek apakah voucher masih tersedia dan aktif? Apa tipe diskon? persen atau
 			 * cashback? Apakah total_mount memenuhi min_val? Jika ya, hitung besar diskon.
 			 * Apakah besar diskon melebihi max_val? Jika tidak, return besar diskon. Jika
 			 * ya, besar diskon = max_val, return besar diskon
 			 */
-			if (dealsRecord.getCount() < deals.getLimit_use_per_user() && deals.getActive_status().equals(true)) {
+			if (historySize < deals.getLimit_use_per_user() && deals.getActive_status().equals(true)) {
 				if (deals.getType() == 0) {
 					// Discount by percent
 					if (total_amount.compareTo(deals.getMin_val()) > 0
@@ -68,7 +69,7 @@ public class DealsHistoryServiceImpl implements DealsHistoryService {
 					}
 				}
 			}
-		} else if (dealsRecord == null && deals != null) {
+		} else if (historySize == 0 && deals != null) {
 			if (deals.getActive_status().equals(true)) {
 				if (deals.getType() == 0) {
 					// Discount by percent
@@ -96,7 +97,6 @@ public class DealsHistoryServiceImpl implements DealsHistoryService {
 
 	@Override
 	public DealsHistory useDeals(DealsHistory dealsHistory, Integer u_id) {
-		DealsHistory dealsRecord = dealsHistoryRepository.findSpecificUserHistory(u_id, dealsHistory.getR_id(), dealsHistory.getId());
 
 		Deals d = dealsRepository.findADealsByRestaurant(dealsHistory.getR_id(), dealsHistory.getId());
 		d.setTotal_limit_use(d.getTotal_limit_use() - 1);
@@ -111,18 +111,14 @@ public class DealsHistoryServiceImpl implements DealsHistoryService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		if (dealsRecord != null) {
-			Integer currentCount = dealsHistory.getCount();
-			dealsHistory.setCount(currentCount + 1);
-			dealsHistory.setCreate_at(current);
-		} else {
-			dealsHistory.setU_id(u_id);
-			dealsHistory.setCount(1);
-			dealsHistory.setCreate_at(current);
-		}
+		dealsHistory.setCreate_at(current);
 		return dealsHistory = dealsHistoryRepository.save(dealsHistory);
 		
+	}
+
+	@Override
+	public List<DealsHistory> getRestaurantHistory(Integer r_id) {
+		return dealsHistoryRepository.findARestaurantHistory(r_id);
 	}
 
 }
