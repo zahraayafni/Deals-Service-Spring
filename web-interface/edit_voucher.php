@@ -1,8 +1,30 @@
-<?php 
+<?php
+
 	$r_id = $_GET['r_id'];
+	$id = $_GET['id'];
+	$curl = curl_init();
+	curl_setopt_array($curl, array(
+		CURLOPT_URL => "deals-service-spring.herokuapp.com/deals/".$r_id."/".$id,
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_TIMEOUT => 30,
+  		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  		CURLOPT_CUSTOMREQUEST => "GET",
+  		CURLOPT_HTTPHEADER => array(
+    		"cache-control: no-cache"
+  		),
+	));
+
+	$response = curl_exec($curl);
+	$err = curl_error($curl);
+
+	curl_close($curl);
+
+	$deals = json_decode($response, true); 	
+
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 		//API Url
-		$url = 'https://deals-service-spring.herokuapp.com/deals/'.$r_id;
+		$url = 'https://deals-service-spring.herokuapp.com/deals/'.$_POST["r_id"]."/".$_POST["id"];
 		 
 		//Initiate cURL.
 		$ch = curl_init($url);
@@ -27,8 +49,8 @@
 		//Encode the array into JSON.
 		$jsonDataEncoded = json_encode($jsonData);
 		 
-		//Tell cURL that we want to send a POST request.
-		curl_setopt($ch, CURLOPT_POST, 1);
+		//Tell cURL that we want to send a PUT request.
+		curl_setopt($ch,CURLOPT_CUSTOMREQUEST,"PUT");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		 
 		//Attach our encoded JSON string to the POST fields.
@@ -64,13 +86,16 @@
 	            $error_status = "Undocumented error: " . $httpCode . " : " . curl_error($ch);
 	            break;
 	    }
+
+		curl_close($ch);
 	}
 ?>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Add Deals</title>
+	<title>Edit Deals</title>
 	<style type="text/css">
 		.deals-form {
 			margin-left: 35%;
@@ -83,23 +108,26 @@
 </head>
 <body>
 	<div class="deals-form">
-		<h1>Add Deals</h1>
+		<h1>Edit Deals</h1>
 
 		<form action="" method="POST">
 			<table>
+
+				<input type="hidden" name="r_id" value="<?php echo $r_id ?>">
+				<input type="hidden" name="id" value="<?php echo $id ?>">
 				<tr>
 					<td>Kode voucher</td>
-					<td><input type="text" name="code" required></td>
+					<td><input type="text" name="code" value="<?php echo $deals['code'] ?>" required></td>
 				</tr>
 
 				<tr>
 					<td>Nama voucher</td>
-					<td><input type="text" name="name" required></td>
+					<td><input type="text" name="name" value="<?php echo $deals['name'] ?>" required></td>
 				</tr>
 
 				<tr>
 					<td>Deskripsi</td>
-					<td><input type="text" name="description" required></td>
+					<td><input type="text" name="description" value="<?php echo $deals['description'] ?>" required></td>
 				</tr>
 
 				<tr>
@@ -114,27 +142,27 @@
 
 				<tr>
 					<td>Besar diskon</td>
-					<td><input type="text" name="amount" required></td>
+					<td><input type="text" name="amount" value="<?php echo $deals['amount'] ?>" required></td>
 				</tr>
 
 				<tr>
 					<td>Max diskon</td>
-					<td><input type="text" name="max_val" required></td>
+					<td><input type="text" name="max_val" value="<?php echo $deals['max_val'] ?>" required></td>
 				</tr>
 
 				<tr>
 					<td>Min belanja</td>
-					<td><input type="text" name="min_val" required></td>
+					<td><input type="text" name="min_val" value="<?php echo $deals['min_val'] ?>" required></td>
 				</tr>
 
 				<tr>
 					<td>Banyak voucher</td>
-					<td><input type="text" name="total_limit_use" required></td>
+					<td><input type="text" name="total_limit_use" value="<?php echo $deals['total_limit_use'] ?>" required></td>
 				</tr>
 
 				<tr>
 					<td>Batas penggunaan tiap customer</td>
-					<td><input type="text" name="limit_use_per_user" required></td>
+					<td><input type="text" name="limit_use_per_user" value="<?php echo $deals['limit_use_per_user'] ?>" required></td>
 				</tr>
 
 				<tr>
@@ -151,12 +179,12 @@
 
 				<tr>
 					<td>Berlaku sejak</td>
-					<td><input type="text" name="start" required></td>
+					<td><input type="text" name="start" value="<?php echo $deals['start'] ?>" required></td>
 				</tr>
 
 				<tr>
 					<td>Berakhir pada</td>
-					<td><input type="text" name="end_time" required></td>
+					<td><input type="text" name="end_time" value="<?php echo $deals['end_time'] ?>" required></td>
 				</tr>
 			</table>
 

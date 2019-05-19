@@ -1,9 +1,9 @@
 <?php
 
-	$r_id = $_GET['r_id'];
+	$r_id = 1;
 	$curl = curl_init();
 	curl_setopt_array($curl, array(
-		CURLOPT_URL => "deals-service-spring.herokuapp.com/deals/".$r_id."/exp",
+		CURLOPT_URL => "deals-service-spring.herokuapp.com/deals/".$r_id,
 		CURLOPT_RETURNTRANSFER => true,
 		CURLOPT_TIMEOUT => 30,
   		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -41,6 +41,7 @@
     }
 
 	curl_close($curl);
+
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +68,6 @@
 	</ul>	
 </header>
 
-<h4>Expired Deals</h4>
 <table>
 	<thead>
 		<th>ID</th>

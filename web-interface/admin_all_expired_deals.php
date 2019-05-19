@@ -1,9 +1,8 @@
 <?php
 
-	$r_id = $_GET['r_id'];
 	$curl = curl_init();
 	curl_setopt_array($curl, array(
-		CURLOPT_URL => "deals-service-spring.herokuapp.com/deals/".$r_id."/exp",
+		CURLOPT_URL => "deals-service-spring.herokuapp.com/deals/exp",
 		CURLOPT_RETURNTRANSFER => true,
 		CURLOPT_TIMEOUT => 30,
   		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -14,7 +13,7 @@
 	));
 
 	$response = curl_exec($curl);
-
+	
 	/* Check for 404 (file not found). */
     $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     // Check the HTTP Status code
@@ -46,7 +45,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Get All Deals of A Restaurant</title>
+	<title>Get All Expired Restaurant Deals</title>
 
 	<style type="text/css">
 		.head {
@@ -60,17 +59,18 @@
 
 <header>
 	<ul>
-		<li class="head"><h1>Deals of A Restaurant</h1></li>
-		<li class="head"><?php echo '<a href="get_all_active_deals.php?r_id='.$r_id.'">Active</a>' ?></li>
-		<li class="head"><?php echo '<a href="get_all_expired_deals.php?r_id='.$r_id.'">Expired</a>' ?></li>
-		<li class="head"><?php echo '<a href="form_add_deals.php?r_id='.$r_id.'">Add Deals</a>' ?></li>
+		<li class="head"><h1>Deals of All Restaurant</h1></li>
+		<li class="head"><?php echo '<a href="admin_all_active_deals.php">Active</a>' ?></li>
+		<li class="head"><?php echo '<a href="admin_all_expired_deals.php">Expired</a>' ?></li>
 	</ul>	
 </header>
 
 <h4>Expired Deals</h4>
+
 <table>
 	<thead>
 		<th>ID</th>
+		<th>ID Restaurant</th>
 		<th>Kode Voucher</th>
 		<th>Name</th>
 		<th>Description</th>
@@ -88,6 +88,7 @@
 		?>
 		<tr>
 			<td><?php echo $allDeals[$i]['id'] ?></td>
+			<td><?php echo $allDeals[$i]['r_id'] ?></td>
 			<td><?php echo $allDeals[$i]['code'] ?></td>
 			<td><?php echo $allDeals[$i]['name'] ?></td>
 			<td><?php echo $allDeals[$i]['description'] ?></td>
@@ -98,9 +99,9 @@
 			<td><?php echo $allDeals[$i]['end_time'] ?></td>
 			<td>
 				<ul>
-					<li class="head"><?php echo '<a href="voucher_details.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'">Details</a>' ?></li>
-					<li class="head"><?php echo '<a href="edit_voucher.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'">Edit</a>' ?></li>
-					<li class="head"><?php echo '<a href="delete_voucher.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'">Delete</a>' ?></li>
+					<li class="head"><?php echo '<a href="voucher_details.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'">Details</a>' ?></li>
+					<li class="head"><?php echo '<a href="edit_voucher.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'">Edit</a>' ?></li>
+					<li class="head"><?php echo '<a href="delete_voucher.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'">Delete</a>' ?></li>
 				</ul>
 			</td>
 		</tr>

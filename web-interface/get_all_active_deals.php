@@ -1,9 +1,9 @@
 <?php
 
-	$id = $_GET['id'];
+	$r_id = $_GET['r_id'];
 	$curl = curl_init();
 	curl_setopt_array($curl, array(
-		CURLOPT_URL => "deals-service-spring.herokuapp.com/deals/".$id."/active",
+		CURLOPT_URL => "deals-service-spring.herokuapp.com/deals/".$r_id."/active",
 		CURLOPT_RETURNTRANSFER => true,
 		CURLOPT_TIMEOUT => 30,
   		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -14,11 +14,33 @@
 	));
 
 	$response = curl_exec($curl);
-	$err = curl_error($curl);
+	
+	/* Check for 404 (file not found). */
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    // Check the HTTP Status code
+    switch ($httpCode) {
+        case 200:
+            $error_status = "200: Success";
+            $allDeals = json_decode($response, true); 	
+            break;
+        case 404:
+            $error_status = "404: API Not found";
+            break;
+        case 500:
+            $error_status = "500: servers replied with an error.";
+            break;
+        case 502:
+            $error_status = "502: servers may be down or being upgraded. Hopefully they'll be OK soon!";
+            break;
+        case 503:
+            $error_status = "503: service unavailable. Hopefully they'll be OK soon!";
+            break;
+        default:
+            $error_status = "Undocumented error: " . $httpCode . " : " . curl_error($curl);
+            break;
+    }
 
 	curl_close($curl);
-
-	$allDeals = json_decode($response, true); 	
 ?>
 
 <!DOCTYPE html>
@@ -39,9 +61,9 @@
 <header>
 	<ul>
 		<li class="head"><h1>Deals of A Restaurant</h1></li>
-		<li class="head"><?php echo '<a href="get_all_active_deals.php?id='.$id.'">Active</a>' ?></li>
-		<li class="head"><?php echo '<a href="get_all_expired_deals.php?id='.$id.'">Expired</a>' ?></li>
-		<li class="head"><?php echo '<a href="form_add_deals.php?id='.$id.'">Add Deals</a>' ?></li>
+		<li class="head"><?php echo '<a href="get_all_active_deals.php?r_id='.$r_id.'">Active</a>' ?></li>
+		<li class="head"><?php echo '<a href="get_all_expired_deals.php?r_id='.$r_id.'">Expired</a>' ?></li>
+		<li class="head"><?php echo '<a href="form_add_deals.php?r_id='.$r_id.'">Add Deals</a>' ?></li>
 	</ul>	
 </header>
 
@@ -56,12 +78,9 @@
 		<th>Besar Diskon</th>
 		<th>Maksimum Diskon</th>
 		<th>Belanja Minimal</th>
-		<th>Total Banyak Voucher</th>
-		<th>Voucher per user</th>
-		<th>Untuk customer baru</th>
-		<th>Status</th>
 		<th>Mulai</th>
 		<th>Hingga</th>
+		<th>Actions</th>
 	</thead>
 
 	<tbody>
@@ -76,17 +95,15 @@
 			<td><?php echo $allDeals[$i]['amount'] ?></td>
 			<td><?php echo $allDeals[$i]['max_val'] ?></td>
 			<td><?php echo $allDeals[$i]['min_val'] ?></td>
-			<td><?php echo $allDeals[$i]['total_limit_use'] ?></td>
-			<td><?php echo $allDeals[$i]['limit_use_per_user'] ?></td>
-			<td><?php 
-				if($allDeals[$i]['new_cust_only'] === TRUE)
-			        echo "Yes";
-			    else
-			        echo "No";
-				?></td>
-			<td><?php echo $allDeals[$i]['active_status'] ?></td>
 			<td><?php echo $allDeals[$i]['start'] ?></td>
 			<td><?php echo $allDeals[$i]['end_time'] ?></td>
+			<td>
+				<ul>
+					<li class="head"><?php echo '<a href="voucher_details.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'">Details</a>' ?></li>
+					<li class="head"><?php echo '<a href="edit_voucher.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'">Edit</a>' ?></li>
+					<li class="head"><?php echo '<a href="delete_voucher.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'">Delete</a>' ?></li>
+				</ul>
+			</td>
 		</tr>
 
 		<?php 			
