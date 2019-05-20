@@ -159,7 +159,7 @@
             				<div class="form-group">
             					<label>Tipe Voucher</label>
             					<br>
-            					<select name="type" required>
+            					<select class="form-control" name="type" required>
             						<option value="0">Presentase</option>
             						<option value="1">Potongan langsung</option>
             					</select>
