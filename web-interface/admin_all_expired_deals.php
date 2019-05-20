@@ -70,62 +70,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 
-<!-- ===================== -->
-<body>
-<header>
-	<ul>
-		<li class="head"><h1>Deals of All Restaurant</h1></li>
-		<li class="head"><?php echo '<a href="admin_all_active_deals.php">Active</a>' ?></li>
-		<li class="head"><?php echo '<a href="admin_all_expired_deals.php">Expired</a>' ?></li>
-	</ul>	
-</header>
-
-<h4>Expired Deals</h4>
-
-<table>
-	<thead>
-		<th>ID</th>
-		<th>ID Restaurant</th>
-		<th>Kode Voucher</th>
-		<th>Name</th>
-		<th>Description</th>
-		<th>Besar Diskon</th>
-		<th>Maksimum Diskon</th>
-		<th>Belanja Minimal</th>
-		<th>Mulai</th>
-		<th>Hingga</th>
-		<th>Actions</th>
-	</thead>
-	<tbody>
-		<?php
-			for ($i=0; $i < sizeof($allDeals); $i++) {
-		?>
-		<tr>
-			<td><?php echo $allDeals[$i]['id'] ?></td>
-			<td><?php echo $allDeals[$i]['r_id'] ?></td>
-			<td><?php echo $allDeals[$i]['code'] ?></td>
-			<td><?php echo $allDeals[$i]['name'] ?></td>
-			<td><?php echo $allDeals[$i]['description'] ?></td>
-			<td><?php echo $allDeals[$i]['amount'] ?></td>
-			<td><?php echo $allDeals[$i]['max_val'] ?></td>
-			<td><?php echo $allDeals[$i]['min_val'] ?></td>
-			<td><?php echo $allDeals[$i]['start'] ?></td>
-			<td><?php echo $allDeals[$i]['end_time'] ?></td>
-			<td>
-				<ul>
-					<li class="head"><?php echo '<a href="voucher_details.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'">Details</a>' ?></li>
-					<li class="head"><?php echo '<a href="edit_voucher.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'">Edit</a>' ?></li>
-					<li class="head"><?php echo '<a href="delete_voucher.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'">Delete</a>' ?></li>
-				</ul>
-			</td>
-		</tr>
-		<?php 			
-			}
-		?>
-	</tbody>
-</table>
-<!-- ===================== -->
-
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <header class="main-header">
