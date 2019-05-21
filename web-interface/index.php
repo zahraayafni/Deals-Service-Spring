@@ -11,6 +11,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+		<style type="text/css">
+			.colorWhite {
+				color: white;
+			}
+
+			.icon {
+				color: white;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 		<div id="wrapper">
@@ -21,7 +31,7 @@
 				<!-- Header -->
 					<header id="header">
 						<h1>Deals Service</h1>
-						<p>Choose a Role to Login!</p>
+						<p class="colorWhite">Choose a Role to Login!</p>
 						<nav>
 							<ul>
 								<li><a href="admin_login.php" class="icon fa-lock"><span class="label">Admin</span></a></li>
