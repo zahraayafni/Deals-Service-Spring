@@ -1,24 +1,64 @@
 package id.ac.its.pbkkddealsservice;
 
-import org.apache.commons.codec.binary.Base64;
-import org.json.JSONObject;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.security.KeyPair;
+import java.security.Security;
+import java.security.interfaces.RSAPublicKey;
+
+import org.springframework.core.io.ClassPathResource;
+import org.apache.commons.io.IOUtils;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.openssl.PEMKeyPair;
+import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
 
 public class JwtDecode {
-	public Integer chekRole(String role, String token) {
-		 String[] split_string = token.split("\\.");
-	     String base64EncodedBody = split_string[1];
 
-	     Base64 base64Url = new Base64(true);
+	static {
+		Security.addProvider(new BouncyCastleProvider());
+	}
+	
+	public static RSAPublicKey get(String privateKey) throws IOException {
+	
+//		System.out.println(new FileReader(this.getClass().getResource(privateKey).getFile()));
+		 try {
+			 PEMParser pemParser = new PEMParser(new StringReader(privateKey));
+			 JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider("BC");
+			 
+			 Object object = pemParser.readObject();
+			 KeyPair kp = converter.getKeyPair((PEMKeyPair) object);
+			 
+	         return (RSAPublicKey) kp.getPublic();
+		 } catch (JWTVerificationException exception) {
+			 return null;
+		 }
+	}
+	
+	private String readFile(String fileName) throws IOException {
 
-	     String body = new String(base64Url.decode(base64EncodedBody));
-//	     System.out.println("JWT Body : "+body); 
-	     
-	     final JSONObject obj = new JSONObject(body);
-	     
-	     String authRole = obj.getString("role");
-	     if(role.equals(authRole)) {
-	    	 return obj.getInt("userid");
-	     } else return null;
-	    
+		InputStream input = new ClassPathResource(fileName).getInputStream();
+		byte[] bytes = IOUtils.toByteArray(input);
+		return new String(bytes);
+	}
+
+	public DecodedJWT verifyToken(String token) throws Exception {
+		try {
+			RSAPublicKey publicKey = get(readFile("key/jwtRS256.key"));//Get the key instance
+			
+			Algorithm algorithmRSCheck = Algorithm.RSA256(publicKey, null);
+			JWTVerifier verifier = JWT.require(algorithmRSCheck).withIssuer("tcdelivery").build(); // Reusable verifier																				// instance
+			return verifier.verify(token);
+		} catch (JWTVerificationException exception) {
+			// Invalid signature/claims
+			return null;
+		}
 	}
 }

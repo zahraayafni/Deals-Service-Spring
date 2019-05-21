@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
 import id.ac.its.model.Deals;
 import id.ac.its.pbkkddealsservice.JwtDecode;
 import id.ac.its.service.DealsService;
@@ -79,12 +82,15 @@ public class DealsController {
 	@ResponseBody
 	@PostMapping("/{r_id}")
 	public Map<String, Object> createDeals(@RequestHeader("Authorization") String token,
-			@PathVariable("r_id") Integer r_id, @RequestBody Deals deals) {
+			@PathVariable("r_id") Integer r_id, @RequestBody Deals deals) throws Exception {
 		Map<String, Object> map = new LinkedHashMap<>();
 
 		JwtDecode decode = new JwtDecode();
-
-		if (decode.chekRole("Restaurant", token) != null) {
+		
+		DecodedJWT jwt = decode.verifyToken(token);
+		Claim role = jwt.getClaim("role");
+		String roles = role.asString();
+		if (roles.equals("Restaurant")) {
 			dealsService.createDeals(deals, r_id);
 
 			map.put("status", "200 (OK)");
@@ -111,11 +117,15 @@ public class DealsController {
 	@ResponseBody
 	@PutMapping("/{r_id}/{id}")
 	public Map<String, Object> updateDeals(@RequestHeader("Authorization") String token,
-			@PathVariable("r_id") Integer r_id, @PathVariable("id") Integer id, @RequestBody Deals deals) {
+			@PathVariable("r_id") Integer r_id, @PathVariable("id") Integer id, @RequestBody Deals deals) throws Exception {
 		Map<String, Object> map = new LinkedHashMap<>();
 		JwtDecode decode = new JwtDecode();
 
-		if (decode.chekRole("Admin", token) != null || decode.chekRole("Restaurant", token) != null) {
+		DecodedJWT jwt = decode.verifyToken(token);
+		Claim role = jwt.getClaim("role");
+		String roles = role.asString();
+	
+		if (roles.equals("Restaurant") || roles.equals("Admin")) {
 			dealsService.updateDeals(deals, r_id, id);
 			map.put("status", "200 (OK)");
 			map.put("id", id);
@@ -140,12 +150,15 @@ public class DealsController {
 	@ResponseBody
 	@DeleteMapping("/{r_id}/{id}")
 	public Map<String, Object> deleteDeals(@RequestHeader("Authorization") String token,
-			@PathVariable("r_id") Integer r_id, @PathVariable("id") Integer id) {
+			@PathVariable("r_id") Integer r_id, @PathVariable("id") Integer id) throws Exception {
 		Map<String, Object> map = new LinkedHashMap<>();
 
 		JwtDecode decode = new JwtDecode();
-
-		if (decode.chekRole("Admin", token) != null || decode.chekRole("Restaurant", token) != null) {
+		DecodedJWT jwt = decode.verifyToken(token);
+		Claim role = jwt.getClaim("role");
+		String roles = role.asString();
+	
+		if (roles.equals("Restaurant") || roles.equals("Admin")) {
 			dealsService.deleteDeals(r_id, id);
 			map.put("result", "deleted");
 		}
@@ -154,11 +167,12 @@ public class DealsController {
 	
 	@ResponseBody
 	@PostMapping("admin")
-	public Map<String, Object> checkAdminRole(@RequestHeader("Authorization") String token) {
+	public Map<String, Object> checkAdminRole(@RequestHeader("Authorization") String token) throws Exception {
 		Map<String, Object> map = new LinkedHashMap<>();
 		JwtDecode decode = new JwtDecode();
-		
-		Integer adminId = decode.chekRole("Admin", token);
+		DecodedJWT jwt = decode.verifyToken(token);
+		Claim u_id = jwt.getClaim("userid");
+		Integer adminId = u_id.asInt();
 		
 		map.put("userId", adminId);
 		return map;
@@ -167,22 +181,26 @@ public class DealsController {
 	
 	@ResponseBody
 	@PostMapping("restaurant")
-	public Map<String, Object> checkRestaurantRole(@RequestHeader("Authorization") String token) {
+	public Map<String, Object> checkRestaurantRole(@RequestHeader("Authorization") String token) throws Exception {
 		JwtDecode decode = new JwtDecode();
 		Map<String, Object> map = new LinkedHashMap<>();
 		
-		Integer resId = decode.chekRole("Restaurant", token);
+		DecodedJWT jwt = decode.verifyToken(token);
+		Claim u_id = jwt.getClaim("userid");
+		Integer resId = u_id.asInt();
 		map.put("userId", resId);
 		return map;
 	}
 	
 	@ResponseBody
 	@PostMapping("customer")
-	public Map<String, Object> checkCustomerRole(@RequestHeader("Authorization") String token) {
+	public Map<String, Object> checkCustomerRole(@RequestHeader("Authorization") String token) throws Exception {
 		JwtDecode decode = new JwtDecode();
 		Map<String, Object> map = new LinkedHashMap<>();
 		
-		Integer custId = decode.chekRole("Customer", token);
+		DecodedJWT jwt = decode.verifyToken(token);
+		Claim u_id = jwt.getClaim("userid");
+		Integer custId = u_id.asInt();
 		map.put("userId", custId);
 		return map;
 	}
