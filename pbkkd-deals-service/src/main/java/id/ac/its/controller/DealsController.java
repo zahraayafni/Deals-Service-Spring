@@ -84,7 +84,7 @@ public class DealsController {
 
 		JwtDecode decode = new JwtDecode();
 
-		if (decode.chekRole("Admin", token) != null || decode.chekRole("Restaurant", token) != null) {
+		if (decode.chekRole("Restaurant", token) != null) {
 			dealsService.createDeals(deals, r_id);
 
 			map.put("status", "200 (OK)");

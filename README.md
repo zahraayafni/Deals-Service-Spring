@@ -5,23 +5,23 @@ API can be accessed at https://deals-service-spring.herokuapp.com
 ## API Information
 ---
 
-| Endpoint  | Method | Function | Required Parameters |
-| ------------- | ------------- | ------------- | ------------- |
-| /deals | GET | Show all deals | - |
-| /deals/active | GET | Show all active deals | - |
-| /deals/exp | GET | Show all expired deals | - |
-| /deals/{r_id} | GET | Show all deals by restaurant id | - |
-| /deals/{r_id}/code | GET | Show all deals by deals code of a restaurant | Voucher's code |
-| /deals/{r_id}/active | GET | Show all active deals by restaurant id | - |
-| /deals/{r_id}/exp | GET  | Show all expired deals by restaurant id | - |
-| /deals/{r_id} | POST  | Create deals | code, name, description, type, amount, max_val, min_val, total_limit_use, limit_use_per_user, limit_one_cust_only, new_cust_only, active_status, start, end_time |
-| /deals/{r_id}/{id} | GET | Show deals by id for a restaurant | - |
-| /deals/{r_id}/{id} | PUT | Update a deals by id for a restaurant | code, name, description, type, amount, max_val, min_val, total_limit_use, limit_use_per_user, limit_one_cust_only, new_cust_only, active_status, start, end_time |
-| /deals/{r_id}/{id} | DELETE | Deactive a deals by id for a restaurant | - |
-| /history/check/{u_id} | POST | Check for voucher permission | code, r_id, total_amount |
-| /history/user/{u_id} | POST | Use voucher by a user | id, r_id |
-| /history/user/{u_id} | GET | Show voucher history of a user | - |
-| /history/restaurant/{r_id} | GET | Show voucher history of a restaurant | - |
+| Endpoint  | Method | Function | Required Parameters | Privilege |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| /deals | GET | Show all deals | - | - |
+| /deals/active | GET | Show all active deals | - | - |
+| /deals/exp | GET | Show all expired deals | - | - |
+| /deals/{r_id} | GET | Show all deals by restaurant id | - | - |
+| /deals/{r_id}/code | GET | Show all deals by deals code of a restaurant | Voucher's code | - |
+| /deals/{r_id}/active | GET | Show all active deals by restaurant id | - | - |
+| /deals/{r_id}/exp | GET  | Show all expired deals by restaurant id | - |v
+| /deals/{r_id} | POST  | Create deals | code, name, description, type, amount, max_val, min_val, total_limit_use, limit_use_per_user, limit_one_cust_only, new_cust_only, active_status, start, end_time | Restaurant |
+| /deals/{r_id}/{id} | GET | Show deals by id for a restaurant | - | - |
+| /deals/{r_id}/{id} | PUT | Update a deals by id for a restaurant | code, name, description, type, amount, max_val, min_val, total_limit_use, limit_use_per_user, limit_one_cust_only, new_cust_only, active_status, start, end_time | Admin, Restaurant |
+| /deals/{r_id}/{id} | DELETE | Deactive a deals by id for a restaurant | - | Admin, Restaurant |
+| /history/check/{u_id} | POST | Check for voucher permission | code, r_id, total_amount | - |
+| /history/user | POST | Use voucher by a user | id, r_id | Customer |
+| /history/user | GET | Show voucher history of a user | - | Customer |
+| /history/restaurant | GET | Show voucher history of a restaurant | - | Restaurant |
 
 ## Parameter Description
 ---
