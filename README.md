@@ -13,7 +13,7 @@ API can be accessed at https://deals-service-spring.herokuapp.com
 | /deals/{r_id} | GET | Show all deals by restaurant id | - | - |
 | /deals/{r_id}/code | GET | Show all deals by deals code of a restaurant | Voucher's code | - |
 | /deals/{r_id}/active | GET | Show all active deals by restaurant id | - | - |
-| /deals/{r_id}/exp | GET  | Show all expired deals by restaurant id | - |v
+| /deals/{r_id}/exp | GET  | Show all expired deals by restaurant id | - | - |
 | /deals/{r_id} | POST  | Create deals | code, name, description, type, amount, max_val, min_val, total_limit_use, limit_use_per_user, limit_one_cust_only, new_cust_only, active_status, start, end_time | Restaurant |
 | /deals/{r_id}/{id} | GET | Show deals by id for a restaurant | - | - |
 | /deals/{r_id}/{id} | PUT | Update a deals by id for a restaurant | code, name, description, type, amount, max_val, min_val, total_limit_use, limit_use_per_user, limit_one_cust_only, new_cust_only, active_status, start, end_time | Admin, Restaurant |

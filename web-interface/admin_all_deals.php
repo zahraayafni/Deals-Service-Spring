@@ -180,8 +180,8 @@
 											<td><?php echo $allDeals[$i]['end_time'] ?></td>
 											<td>
 												<?php echo '<a href="voucher_details.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'"><button type="button" class="btn btn-primary">Details</button></a>' ?>
-                                               <?php echo '<a href="edit_voucher.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'"><button type="button" class="btn btn-warning">Edit</button></a>' ?>
-                                               <?php echo '<a href="delete_voucher.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'"><button type="button" class="btn btn-danger">Delete</button></a>' ?>
+                                               <?php echo '<a href="edit_voucher.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'&token='.$token.'"><button type="button" class="btn btn-warning">Edit</button></a>' ?>
+                                               <?php echo '<a href="delete_voucher.php?r_id='.$allDeals[$i]['r_id'].'&'.'id='.$allDeals[$i]['id'].'&token='.$token.'"><button type="button" class="btn btn-danger">Delete</button></a>' ?>
 											</td>
 										</tr>
 										<?php 			

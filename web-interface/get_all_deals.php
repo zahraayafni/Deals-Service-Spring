@@ -126,6 +126,7 @@
               <li><?php echo '<a href="get_all_active_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Active</a>' ?></li>
               <li><?php echo '<a href="get_all_expired_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Expired</a>' ?></li>
               <li><?php echo '<a href="form_add_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-book"></i> Add Deals</a>' ?></li>
+              <li><?php echo '<a href="restaurant_history.php?token='.$token.'" style="text-decoration: none"><i class="fa fa-book"></i>Deals History</a>' ?></li>
               <li>
                 <?php echo '<a href="logout.php?token='.$token.'" style="text-decoration: none">
                   <i class="fa fa-sign-out"></i> <span>Logout</span>
