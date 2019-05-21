@@ -2,29 +2,8 @@
 
     $token = $_GET["token"];
 
-    //Authentication as restaurant
-    $urls = 'deals-service-spring.herokuapp.com/deals/restaurant';
-     
-    //Initiate cURL.
-    $ch = curl_init($urls);
-     
-    //Tell cURL that we want to send a POST request.
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$token)); 
-
-    //Execute the request
-    $result = curl_exec($ch);
-    $res = json_decode($result, true);
-
-    /* Check for 404 (file not found). */
-    $httpCodes = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    // Check the HTTP Status code
-    if (checkstatus($httpCodes) == TRUE) {
-        $r_id = $res["userId"];
-    }
-
-    $url = 'deals-service-spring.herokuapp.com/history/restaurant';
+    //Authentication as customer
+    $url = 'deals-service-spring.herokuapp.com/history/user';
 
 	$curl = curl_init();
 	curl_setopt_array($curl, array(
@@ -75,7 +54,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Get All Deals of A Restaurant</title>
+    <title>Get All Deals of A Customer</title>
 
     <!-- <style type="text/css">
         .head {
@@ -121,11 +100,7 @@
                 </div>
              </div>
              <ul class="sidebar-menu" data-widget="tree">
-              <li><?php echo '<a href="get_all_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> All</a>' ?></li>
-              <li><?php echo '<a href="get_all_active_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Active</a>' ?></li>
-              <li><?php echo '<a href="get_all_expired_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Expired</a>' ?></li>
-              <li><?php echo '<a href="form_add_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-book"></i> Add Deals</a>' ?></li>
-              <li><?php echo '<a href="restaurant_history.php?token='.$token.'" style="text-decoration: none"><i class="fa fa-book"></i>Deals History</a>' ?></li>
+              <li><?php echo '<a href="customer_history.php?token='.$token.'" style="text-decoration: none"><i class="fa fa-book"></i>Deals History</a>' ?></li>
               <li>
                 <?php echo '<a href="logout.php?token='.$token.'" style="text-decoration: none">
                   <i class="fa fa-sign-out"></i> <span>Logout</span>
@@ -139,11 +114,11 @@
         <div class="content-wrapper">
             <section class="content-header">
                 <h1>
-                    Deals History of A Restaurant
+                    Deals History of A Customer
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li class="active">History Deals of A Restaurant</li>
+                    <li class="active">History Deals of A Customer</li>
                 </ol>
             </section>           
             <section class="content">
@@ -155,7 +130,7 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Customer ID</th>
+                                            <th>Restaurant ID</th>
                                             <th>Voucher ID</th>
                                             <th>Timestamp</th>
                                         </tr>
@@ -167,7 +142,7 @@
                                         ?>
                                         <tr>
                                             <td><?php echo $allHistory[$i]['dh_id'] ?></td>
-                                            <td><?php echo $allHistory[$i]['u_id'] ?></td>
+                                            <td><?php echo $allHistory[$i]['r_id'] ?></td>
                                             <td><?php echo $allHistory[$i]['id'] ?></td>
                                             <td><?php echo $allHistory[$i]['create_at'] ?></td>
                                         </tr>
