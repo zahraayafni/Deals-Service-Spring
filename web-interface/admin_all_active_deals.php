@@ -1,5 +1,29 @@
 <?php
 
+    $token = $_GET["token"];
+
+    //Authentication as restaurant
+    $url = 'deals-service-spring.herokuapp.com/deals/admin';
+     
+    //Initiate cURL.
+    $ch = curl_init($url);
+     
+    //Tell cURL that we want to send a POST request.
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$token)); 
+
+    //Execute the request
+    $result = curl_exec($ch);
+    $res = json_decode($result, true);
+
+    /* Check for 404 (file not found). */
+    $httpCodes = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    // Check the HTTP Status code
+    // if (checkstatus($httpCodes) == TRUE) {
+    //     $a_id = $res["userId"];
+    // }
+    
 	$curl = curl_init();
 	curl_setopt_array($curl, array(
 		CURLOPT_URL => "deals-service-spring.herokuapp.com/deals/active",
@@ -91,13 +115,13 @@
                 </div>
              </div>
              <ul class="sidebar-menu" data-widget="tree">
-              <li><a href="admin_all_deals.php" style="text-decoration: none"><i class="fa fa-circle-o"></i> All</a></li>
-              <li><a href="admin_all_active_deals.php" style="text-decoration: none"><i class="fa fa-circle-o"></i> Active</a></li>
-              <li><a href="admin_all_expired_deals.php" style="text-decoration: none"><i class="fa fa-circle-o"></i> Expired</a></li>
+              <li><?php echo '<a href="admin_all_deals.php?token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> All</a>' ?></li>
+              <li><?php echo '<a href="admin_all_active_deals.php?token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Active</a>' ?></li>
+              <li><?php echo '<a href="admin_all_expired_deals.php?token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Expired</a>' ?></li>
               <li>
-                <a href="index.php" style="text-decoration: none">
+                <?php echo '<a href="logout.php?token='.$token.'" style="text-decoration: none">
                   <i class="fa fa-sign-out"></i> <span>Logout</span>
-                </a>
+                </a>'?>
               </li>
              </ul>
            </section>

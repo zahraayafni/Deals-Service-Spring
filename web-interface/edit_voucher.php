@@ -1,5 +1,6 @@
 <?php
 
+    $token = $_GET['token'];
 	$r_id = $_GET['r_id'];
 	$id = $_GET['id'];
 	$curl = curl_init();
@@ -57,7 +58,7 @@
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
 		 
 		//Set the content type to application/json
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: '.$token)); 
 		 
 		//Execute the request
 		$result = curl_exec($ch);
@@ -68,7 +69,7 @@
 	    switch ($httpCode) {
 	        case 200:
 	            $error_status = "200: Success";
-	            header("Location: get_all_deals.php"); 
+	            header("Location: get_all_deals.php?token=".$token);  
 	            break;
 	        case 404:
 	            $error_status = "404: API Not found";

@@ -20,7 +20,7 @@
 	    switch ($httpCode) {
 	        case 200:
 	            $error_status = "200: Success";
-	            header("Location: get_all_deals.php"); 
+	            header("Location: get_all_deals.php?token=".$response["value"]); 
 	            break;
 	        case 404:
 	            $error_status = "404: API Not found";
@@ -44,7 +44,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Admin Login</title>
+	<title>Restaurant Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	

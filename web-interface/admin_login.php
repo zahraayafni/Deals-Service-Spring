@@ -20,7 +20,7 @@
 	    switch ($httpCode) {
 	        case 200:
 	            $error_status = "200: Success";
-	            header("Location: admin_all_deals.php"); 
+	            header("Location: admin_all_deals.php?token=".$response["value"]); 
 	            break;
 	        case 404:
 	            $error_status = "404: API Not found";

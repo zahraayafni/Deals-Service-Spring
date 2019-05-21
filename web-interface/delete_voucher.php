@@ -1,5 +1,6 @@
 <?php
 
+    $token = $_GET['token'];
 	$r_id = $_GET['r_id'];
 	$id = $_GET['id'];
 	$curl = curl_init();
@@ -10,7 +11,7 @@
   		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   		CURLOPT_CUSTOMREQUEST => "DELETE",
   		CURLOPT_HTTPHEADER => array(
-    		"cache-control: no-cache"
+    		'Authorization: '.$token
   		),
 	));
 
@@ -22,7 +23,7 @@
     switch ($httpCode) {
         case 200:
             $error_status = "200: Success";
-            header("Location: get_all_deals.php"); 
+            header("Location: get_all_deals.php?token=".$token); 
             break;
         case 404:
             $error_status = "404: API Not found";

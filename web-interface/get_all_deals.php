@@ -1,6 +1,30 @@
 <?php
 
-	$r_id = 1;
+    $token = $_GET["token"];
+
+    //Authentication as restaurant
+    $url = 'deals-service-spring.herokuapp.com/deals/restaurant';
+     
+    //Initiate cURL.
+    $ch = curl_init($url);
+     
+    //Tell cURL that we want to send a POST request.
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$token)); 
+
+    //Execute the request
+    $result = curl_exec($ch);
+    $res = json_decode($result, true);
+
+    /* Check for 404 (file not found). */
+    $httpCodes = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    // Check the HTTP Status code
+    if (checkstatus($httpCodes) == TRUE) {
+        $r_id = $res["userId"];
+    }
+
+    //GET QUERY TABLES
 	$curl = curl_init();
 	curl_setopt_array($curl, array(
 		CURLOPT_URL => "deals-service-spring.herokuapp.com/deals/".$r_id,
@@ -18,29 +42,34 @@
 	/* Check for 404 (file not found). */
     $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     // Check the HTTP Status code
-    switch ($httpCode) {
-        case 200:
-            $error_status = "200: Success";
-            $allDeals = json_decode($response, true); 	
-            break;
-        case 404:
-            $error_status = "404: API Not found";
-            break;
-        case 500:
-            $error_status = "500: servers replied with an error.";
-            break;
-        case 502:
-            $error_status = "502: servers may be down or being upgraded. Hopefully they'll be OK soon!";
-            break;
-        case 503:
-            $error_status = "503: service unavailable. Hopefully they'll be OK soon!";
-            break;
-        default:
-            $error_status = "Undocumented error: " . $httpCode . " : " . curl_error($curl);
-            break;
+    if (checkstatus($httpCode) == TRUE) {
+        $allDeals = json_decode($response, true); 
     }
 
 	curl_close($curl);
+
+    function checkstatus($code) {
+        switch ($code) {
+            case 200:
+                $error_status = "200: Success";
+                return TRUE;
+            case 404:
+                $error_status = "404: API Not found";
+                return $error_status;
+            case 500:
+                $error_status = "500: servers replied with an error.";
+                return $error_status;
+            case 502:
+                $error_status = "502: servers may be down or being upgraded. Hopefully they'll be OK soon!";
+                return $error_status;
+            case 503:
+                $error_status = "503: service unavailable. Hopefully they'll be OK soon!";
+                return $error_status;
+            default:
+                $error_status = "Undocumented error: " . $code;
+                return $error_status;
+        }
+    }
 
 ?>
 
@@ -93,14 +122,14 @@
                 </div>
              </div>
              <ul class="sidebar-menu" data-widget="tree">
-              <li><?php echo '<a href="get_all_deals.php?r_id='.$r_id.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> All</a>' ?></li>
-              <li><?php echo '<a href="get_all_active_deals.php?r_id='.$r_id.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Active</a>' ?></li>
-              <li><?php echo '<a href="get_all_expired_deals.php?r_id='.$r_id.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Expired</a>' ?></li>
-              <li><?php echo '<a href="form_add_deals.php?r_id='.$r_id.'" style="text-decoration: none"><i class="fa fa-book"></i> Add Deals</a>' ?></li>
+              <li><?php echo '<a href="get_all_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> All</a>' ?></li>
+              <li><?php echo '<a href="get_all_active_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Active</a>' ?></li>
+              <li><?php echo '<a href="get_all_expired_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-circle-o"></i> Expired</a>' ?></li>
+              <li><?php echo '<a href="form_add_deals.php?r_id='.$r_id.'&token='.$token.'" style="text-decoration: none"><i class="fa fa-book"></i> Add Deals</a>' ?></li>
               <li>
-                <a href="index.php" style="text-decoration: none">
+                <?php echo '<a href="logout.php?token='.$token.'" style="text-decoration: none">
                   <i class="fa fa-sign-out"></i> <span>Logout</span>
-                </a>
+                </a>'?>
               </li>
              </ul>
            </section>
@@ -139,6 +168,7 @@
                                     </thead>
                                     <tbody>
                                         <?php
+                                            if($allDeals != null)
 											for ($i=0; $i < sizeof($allDeals); $i++) {
 										?>
 										<tr>
@@ -153,8 +183,8 @@
 											<td><?php echo $allDeals[$i]['end_time'] ?></td>
 											<td>
 												<?php echo '<a href="voucher_details.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'"><button type="button" class="btn btn-primary">Details</button></a>' ?>
-                                               <?php echo '<a href="edit_voucher.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'"><button type="button" class="btn btn-warning">Edit</button></a>' ?>
-                                               <?php echo '<a href="delete_voucher.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'"><button type="button" class="btn btn-danger">Delete</button></a>' ?>
+                                               <?php echo '<a href="edit_voucher.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'&token='.$token.'"><button type="button" class="btn btn-warning">Edit</button></a>' ?>
+                                               <?php echo '<a href="delete_voucher.php?r_id='.$r_id.'&'.'id='.$allDeals[$i]['id'].'&token='.$token.'"><button type="button" class="btn btn-danger">Delete</button></a>' ?>
 											</td>
 										</tr>
 										<?php 			
