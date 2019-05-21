@@ -47,97 +47,166 @@
 
 <!DOCTYPE html>
 <html>
+<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" rel="stylesheet">
 <head>
-	<title>Details Voucher</title>
+    <meta charset="utf-8" />
+    <title>Voucher Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
+
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>Details Voucher</h1>
-<table>
-		<tr>
-			<td>ID</td>
-			<td><?php echo $deals['id'] ?></td>
-		</tr>
 
-		<tr>
-			<td>Kode Voucher</td>
-			<td><?php echo $deals['code'] ?></td>
-		</tr>
-		
-		<tr>
-			<td>Name</td>
-			<td><?php echo $deals['name'] ?></td>
-		</tr>
+<div class="container">
 
-		<tr>
-			<td>Description</td>
-			<td><?php echo $deals['description'] ?></td>
-		</tr>
+<div class="page-header">
+    <h1 style="color: #223a5e;font-family: 'Baloo Bhai', cursive;">Detail Voucher</h1>
+</div>
 
-		<tr>
-			<td>Tipe Diskon</td>
-			<td><?php 
-				if($deals['type']  === 0)
-			        echo "Persen";
-			    else
-			        echo "Potongan Langsung";
-			?></td>
-		</tr>
-		
-		<tr>
-			<td>Besar Diskon</td>
-			<td><?php echo $deals['amount'] ?></td>
-		</tr>
+<!-- Invoice Template - START -->
 
-		<tr>
-			<td>Maksimum Diskon</td>
-			<td><?php echo $deals['max_val'] ?></td>
-		</tr>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 main">
+            <div class="col-md-12">
+               <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-responsive" alt="Invoce Template" src="img/icon.png" />
+                    </div>
+                    <div class="col-md-8 text-right">
+                        <h4 style="color: #223a5e;font-family: 'Baloo Bhai', cursive; font-size: 30pt;"><strong><?php echo $deals['name'] ?></strong></h4>
+                 
+                    </div>
+                </div>
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><h5>ID</h5></th>
+                                <th><h5><?php echo $deals['id'] ?></h5></th>
+                            </tr>
+                        </thead>
+                         <thead>
+                            <tr>
+                                <th><h5>Kode Voucher</h5></th>
+                                <th><h5><?php echo $deals['code'] ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Name</h5></th>
+                                <th><h5><?php echo $deals['name'] ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Description</h5></th>
+                                <th><h5><?php echo $deals['description'] ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Tipe Diskon</h5></th>
+                                <th><h5><?php 
+                if($deals['type']  === 0)
+                    echo "Persen";
+                else
+                    echo "Potongan Langsung";
+            ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Besar Diskon</h5></th>
+                                <th><h5><?php echo $deals['amount'] ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Maksimum Diskon</h5></th>
+                                <th><h5><?php echo $deals['max_val'] ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Belanja Minimal</h5></th>
+                                <th><h5><?php echo $deals['min_val'] ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Banyak  Voucher</h5></th>
+                                <th><h5><?php echo $deals['total_limit_use'] ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Hanya Customer Baru</h5></th>
+                                <th><h5><?php 
+                if($deals['new_cust_only'] === TRUE)
+                    echo "Yes";
+                else
+                    echo "No";
+                ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Status Voucher</h5></th>
+                                <th><h5><?php 
+                if($deals['active_status'] === TRUE)
+                    echo "Active";
+                else
+                    echo "Non Active";
+                ?>  </h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Berlaku Sejak</h5></th>
+                                <th><h5><?php echo $deals['start'] ?></h5></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th><h5>Hingga</h5></th>
+                                <th><h5><?php echo $deals['end_time'] ?></h5></th>
+                            </tr>
+                        </thead>
+                        
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
 
-		<tr>
-			<td>Belanja Minimal</td>
-			<td><?php echo $deals['min_val'] ?></td>
-		</tr>
+<style>
+    .main {
+        background: #ffffff;
+        border-bottom: 15px solid #223a5e;
+        border-top: 15px solid #223a5e;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding: 40px 30px !important;
+        position: relative;
+        box-shadow: 0 1px 21px #808080;
+        font-size:10px;
+    }
 
-		<tr>
-			<td>Banyak voucher</td>
-			<td><?php echo $deals['total_limit_use'] ?></td>
-		</tr>
+    .main thead {
+		background: #1E1F23;
+        color: #fff;
+		}
+</style>
+<!-- Invoice Template - END -->
 
-		<tr>
-			<td>Batas penggunaan tiap customer</td>
-			<td><?php echo $deals['limit_use_per_user'] ?></td>
-		</tr>
+</div>
 
-		<tr>
-			<td>Hanya customer baru</td>
-			<td><?php 
-				if($deals['new_cust_only'] === TRUE)
-			        echo "Yes";
-			    else
-			        echo "No";
-				?></td>
-		</tr>
-
-		<tr>
-			<td>Status voucher</td>
-			<td><?php 
-				if($deals['active_status'] === TRUE)
-			        echo "Active";
-			    else
-			        echo "Non Active";
-				?>					
-			</td>
-		</tr>
-		
-		<tr>
-			<td>Berlaku sejak</td>
-			<td><?php echo $deals['start'] ?></td>
-		</tr>
-		
-		<tr>
-			<td>Hingga</td>
-			<td><?php echo $deals['end_time'] ?></td>
-		</tr>
-</table>
 </body>
 </html>
