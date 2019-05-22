@@ -111,6 +111,7 @@ public class DealsHistoryServiceImpl implements DealsHistoryService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		dealsHistory.setU_id(u_id);
 		dealsHistory.setCreate_at(current);
 		return dealsHistory = dealsHistoryRepository.save(dealsHistory);
 		
